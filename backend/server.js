@@ -2,10 +2,12 @@
 const express = require('express')
 const dotenv = require('dotenv').config() 
 const {errorHandler} = require('./middleware/errorMiddleware')
-
+const colors = require('colors')
 console.log(process.env.PORT)
+const connectDB = require('./config/db')
 const port = process.env.PORT || 5001
 
+connectDB() // Connecting the DB ==> connected here, so that can be used anywhere now in the file
 const app = express()
 
 // API Requests are handles in routes folder in each file using express
@@ -26,6 +28,8 @@ app.use(express.urlencoded({extended: false})) // We are sending data in this fo
 //Instead 
 // We use the following route to fetch the following file from the given location, 
 app.use('/api/menu', require('./routes/menuRoutes'))
+app.use('/api/favorites', require('./routes/favoritesRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 
 
 // middleware

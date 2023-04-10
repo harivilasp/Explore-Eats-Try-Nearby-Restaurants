@@ -6,6 +6,8 @@
 
 # We will be using async handler => async, await , with our mongoDB.
 
+# We are using Bcrypt js to hash the passwords and JWT to authenticate
+# The jwt token is signed using ID for each user. 
 <!-- Overview  -->
 <!-- 
     If the following is our get request with it's response 
@@ -40,6 +42,8 @@
 
     => Menu - menuController.js  
     -->
+
+
 
         
 
