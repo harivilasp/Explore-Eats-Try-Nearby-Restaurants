@@ -3,7 +3,7 @@
 const axios = require('axios');
 
 // Get the near by places
-exports.getNearByPlaces = (req, res, next) => {
+exports.getNearByPlaces = (req, res) => {
     const { lat, lng } = req.body;
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     axios
@@ -18,7 +18,7 @@ exports.getNearByPlaces = (req, res, next) => {
 }
 
 // Get the place details
-exports.getPlaceDetails = (req, res, next) => {
+exports.getPlaceDetails = (req, res) => {
     const { placeId } = req.body;
     const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,formatted_phone_number,formatted_address,opening_hours,website,geometry&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     axios
@@ -33,7 +33,7 @@ exports.getPlaceDetails = (req, res, next) => {
 }
 
 // Get the place photos
-exports.getPlacePhotos = (req, res, next) => {
+exports.getPlacePhotos = (req, res) => {
     const { photoReference } = req.body;
     const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     axios
@@ -63,7 +63,7 @@ exports.getPlaceReviews = (req, res, next) => {
     }
 
 // Get the place opening hours
-exports.getPlaceOpeningHours = (req, res, next) => {
+exports.getPlaceOpeningHours = (req, res) => {
     const { placeId } = req.body;
     const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=opening_hours&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     axios
