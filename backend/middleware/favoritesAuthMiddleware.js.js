@@ -16,9 +16,9 @@ const protectAdmin = asyncHandler(async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
             // Get user from the token
-            req.admin = await Admin.findById(decoded.id).select('-password')  // Since we are signing the token using User ID => look in userController.js
+            req.admin = await Customer.findById(decoded.id).select('-password')  // Since we are signing the token using User ID => look in userController.js
             // Also we dont want the hashed password so we select everything except the password hence '-password 
-            
+            console.log("User", req.admin)
             next()
         
             } catch (error) {

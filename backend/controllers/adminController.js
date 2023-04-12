@@ -93,6 +93,7 @@ const getMe = asyncHandler(async (req,res) => {
         name,   // if we want to show name:name, can just write name
         email,
         username,
+        pendingRestaurantApproval,
     })
     // res.json({message: 'Admin Data' })
 })

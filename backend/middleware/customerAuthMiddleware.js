@@ -14,16 +14,22 @@ const protectCustomer = asyncHandler(async (req, res, next) => {
 
             //verify token 
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
+            // console.log("decoded", decoded.id)
+            // console.log("Here", await Customer.findById(decoded.id));
             // Get customer from the token
             req.customer = await Customer.findById(decoded.id).select('-password')  // Since we are signing the token using User ID => look in userController.js
             // Also we dont want the hashed password so we select everything except the password hence '-password 
-            
-            next()
-        
-            } catch (error) {
+            if (req.customer) { // If the customer exists then only we will allow the user to access the protected route // Customer role
+                next()
+            }
+            else {  // Customer role does not exists, so any other role or no account at all.
+                res.status(401)
+                throw new Error('Not Authroized')
+            }
+        }
+             catch (error) {
                 console.log(error)
-                res.status(401) // 401 means not authorised
+                res.status(401) // 401 means not authorised 
                 throw new Error('Not Authroized')
         }
     }

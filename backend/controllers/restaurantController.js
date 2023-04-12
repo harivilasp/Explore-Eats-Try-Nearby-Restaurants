@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const Restaruant = require('../models/restaurantModel')
-
+const Admin = require('../models/adminModel')
+const PendingRequest = require('../models/pendingRequestModel')
 //  @desc Register new users 
 //  @route Post /api/users
 //  @access Public
@@ -40,6 +41,22 @@ const registerRestaurant = asyncHandler(async (req,res) => {
     })
 
     if(restaurant) {
+        console.log(restaurant)
+        // account created so we will add it's id to the database in the pending list in admin model.
+        const admin = await Admin.findOne({username: "admin1"}) // will just return the one admin that we have, we will keep only one admin for now.
+        // console.log(admin)
+        // admin.pendingRestaurants.push(restaurant.name) // pushing the name of the restaurant to the pending list // We can change this to place_ID later.
+
+
+        // adding to pending request schema
+        console.log(restaurant._id);
+        console.log(admin._id);
+        const pendingRequest = await PendingRequest.create({
+            // restaurantName: restaurant.name,
+            restaurantID: restaurant._id,
+            adminID: admin._id
+        })
+
         res.status(201).json({ // everything is OK and we send the following values back
             _id: restaurant.id,
             name: restaurant.name,
@@ -64,7 +81,7 @@ const registerRestaurant = asyncHandler(async (req,res) => {
 const loginRestaruant = asyncHandler(async (req,res) => {
 
     // Check if the status if approved or not and then show the output accordingly.
-    
+
 
 
     const {username, password} = req.body // getting the information from the frontend 
