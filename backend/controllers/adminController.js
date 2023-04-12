@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const Admin = require('../models/adminModel')
 const PendingRequest = require('../models/pendingRequestModel')
+const Restaurant = require('../models/restaurantModel')
 
 //  @desc Register new users 
 //  @route Post /api/users
@@ -114,6 +115,44 @@ const getPendingResuests = asyncHandler(async (req,res) => {
     // res.json({message: 'Admin Data' })
 })
 
+//  @desc Get pending requests data
+//  @route Get /api/users/me
+//  @access Public
+const approveRestaurant = asyncHandler(async (req,res) => {
+    // Since we are getting the req.admin,  userid from our authMiddleware,we can use it here since it's redirecting us here.
+
+    // we need to find the restaurant information from the id that  we get from the req and then update the restaurant model.
+    const restaurant = await Restaurant.findById(req.params.id) // Since we are passing the id in the url, hence req.params.id
+
+
+    if(restaurant) {
+        restaurant.status = true
+        const updatedRestaurant = await restaurant.save()
+        // whhat does restaurant.save do? It saves the updated restaurant in the database. DOes it update the exisiting one or create a new one? It updates the existing one.
+
+
+        // We also need to delete the restaurant from the pending request model
+        const pendingRequest = await PendingRequest.findOne({restaurantID: req.params.id})
+        console.log(pendingRequest)
+        if(pendingRequest) {
+            await PendingRequest.findByIdAndDelete(pendingRequest._id)  // Deleting the restaurant from the pending request model
+        } else {
+            res.status(404)
+            throw new Error('Restaurant not found')
+        }
+        res.status(200).json(updatedRestaurant)
+    } else {    // if the restaurant is not found
+        res.status(404)
+        throw new Error('Restaurant not found')
+    }
+
+    // res.status(200).json({
+    //     restaruantIDs,
+    //     adminIDs,
+    // })
+    // res.json({message: 'Admin Data' })
+})
+
 
 
 
@@ -126,5 +165,5 @@ const generateToken = (id) => { // Our token will be payload_id(userID) + secret
 
 
 module.exports = {
-    registerAdmin, loginAdmin, getMe, getPendingResuests
+    registerAdmin, loginAdmin, getMe, getPendingResuests, approveRestaurant
 }

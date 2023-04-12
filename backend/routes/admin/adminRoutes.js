@@ -1,7 +1,7 @@
 const express = require('express')
 
 const router = express.Router()
-const {getMe, registerAdmin, loginAdmin, getPendingResuests} = require('../../controllers/adminController')
+const {getMe, registerAdmin, loginAdmin, getPendingResuests, approveRestaurant } = require('../../controllers/adminController')
 const {protectAdmin } = require('../../middleware/adminAuthmiddleware')
 
 
@@ -16,8 +16,12 @@ router.get('/pending', protectAdmin, getPendingResuests)
 
 
 // Approve restaurant   
+// Admin approves the restaruant so that it can be shown in the restaurant list
+
+router.put('/approve/:id', protectAdmin, approveRestaurant)
 
 // Disapprove restaurant
+// router.put('/disapprove/:id', protectAdmin, disapproveRestaurant)   // Some questions on this function
 
 module.exports = router
 
