@@ -19,7 +19,13 @@ const protectAdmin = asyncHandler(async (req, res, next) => {
             req.admin = await Admin.findById(decoded.id).select('-password')  // Since we are signing the token using User ID => look in userController.js
             // Also we dont want the hashed password so we select everything except the password hence '-password 
             
-            next()
+            if (req.admin) {
+                next();
+            }
+            else {
+                res.status(401)
+                throw new Error('Not Authroized')
+            }
         
             } catch (error) {
                 console.log(error)

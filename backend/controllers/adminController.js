@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const Admin = require('../models/adminModel')
+const PendingRequest = require('../models/pendingRequestModel')
 
 //  @desc Register new users 
 //  @route Post /api/users
@@ -93,10 +94,27 @@ const getMe = asyncHandler(async (req,res) => {
         name,   // if we want to show name:name, can just write name
         email,
         username,
-        pendingRestaurantApproval,
     })
     // res.json({message: 'Admin Data' })
 })
+
+
+//  @desc Get pending requests data
+//  @route Get /api/users/me
+//  @access Public
+const getPendingResuests = asyncHandler(async (req,res) => {
+    // Since we are getting the req.admin,  userid from our authMiddleware,we can use it here since it's redirecting us here.
+    const restaruantIDs = await PendingRequest.collection.distinct('restaurantID')// We can all fetch others fields 
+    const adminIDs = await PendingRequest.collection.distinct('adminID')// We can all fetch others fields 
+
+    res.status(200).json({
+        restaruantIDs,
+        adminIDs,
+    })
+    // res.json({message: 'Admin Data' })
+})
+
+
 
 
 // To generate a JWT token 
@@ -108,5 +126,5 @@ const generateToken = (id) => { // Our token will be payload_id(userID) + secret
 
 
 module.exports = {
-    registerAdmin, loginAdmin, getMe
+    registerAdmin, loginAdmin, getMe, getPendingResuests
 }

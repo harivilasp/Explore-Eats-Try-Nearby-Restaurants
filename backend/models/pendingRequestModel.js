@@ -10,8 +10,7 @@ const pendingRequestSchema = mongoose.Schema({
     },
     adminID: {
         type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'Please add an admin id'],
-        unique: true,
+        required: [true, 'Please add an admin id'], // Can't be unique 
         ref: 'Admin' // references our Admin model,.
     }
 

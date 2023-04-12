@@ -18,7 +18,7 @@ const { protectCustomer } = require('../middleware/customerAuthMiddleware')
 const router = express.Router()
 
 // console.log("Here")
-const {protect} = require('../middleware/userAuthmiddleware')
+const {protect} = require('../middleware/adminAuthmiddleware')
 
 router.route('/').get(protectCustomer, getFavorites).post(protectCustomer, addFavorites)
 router.route('/:id').put(protectCustomer, updateFavorites).delete(protectCustomer, deleteFavorites)

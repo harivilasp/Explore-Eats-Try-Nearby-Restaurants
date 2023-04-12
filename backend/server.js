@@ -40,6 +40,7 @@ app.use('/api/customers', require('./routes/customer/customerRoutes'))
 app.use('/api/restaurants', require('./routes/restaurant/restaurantRoutes'))
 
 
+
 // middleware
 
 app.use(errorHandler) // overwrites default

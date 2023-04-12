@@ -92,18 +92,26 @@ const loginRestaruant = asyncHandler(async (req,res) => {
     // Comparing the passwords using their hashed values 
     if(restaurant && (await bcrypt.compare(password, restaurant.password))) {
         // sending back the following fields after login successful
-        res.json({
-            _id: restaurant.id,
-            name: restaurant.name,
-            email: restaurant.email,
-            token: generateToken(restaurant._id),
-            username: restaurant.username,
-            role: restaurant.role,
-            phoneNumber: restaurant.phoneNumber,
-            address: restaurant.address,
-            status: restaurant.status,
-
-        })
+        
+        // Check if the status is approved or not
+        if(restaurant.status === false) {
+            res.status(400)
+            throw new Error('Your account is not approved yet')
+        }   
+        else {
+            res.json({
+                _id: restaurant.id,
+                name: restaurant.name,
+                email: restaurant.email,
+                token: generateToken(restaurant._id),
+                username: restaurant.username,
+                role: restaurant.role,
+                phoneNumber: restaurant.phoneNumber,
+                address: restaurant.address,
+                status: restaurant.status,
+    
+            })
+        }
     } else {
         // Password incorrect or customer not found or some other error
         res.status(400)
