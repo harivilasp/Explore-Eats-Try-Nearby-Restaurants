@@ -3,10 +3,10 @@ const mongoose = require('mongoose')
 const favoriteSchema = mongoose.Schema({
 
     // sser -> which created it? => foreign key 
-    user: {
+    customer: {
         type: mongoose.Schema.Types.ObjectId, // Id type (Object)
         required: true,
-        ref: 'User' // references our user model,.
+        ref: 'Customer' // references our customer model,.
     },
 
     // Favorite url => need to think of fields properly
