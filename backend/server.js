@@ -39,7 +39,9 @@ app.use('/api/customers', require('./routes/customer/customerRoutes'))
 // Restaruant registration and login
 app.use('/api/restaurants', require('./routes/restaurant/restaurantRoutes'))
 
+// Normal user profile view // Will be unprotected and will show only somethings. 
 
+app.use('/api/users/', require('./routes/unprotectedRoutes/profileRoutes'))
 
 // middleware
 

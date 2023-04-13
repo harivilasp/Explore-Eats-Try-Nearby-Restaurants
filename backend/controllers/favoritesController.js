@@ -11,7 +11,7 @@ const Customer = require('../models/customerModel')
 //  @route GET /api/favorites
 //  @access Private
 
-const getFavorites = asyncHandler(async (req,res) => {
+const getCustomerFavorites = asyncHandler(async (req,res) => {
     const favorites = await Favorite.find({customer: req.customer.id}) // Protect middleware provides us the req.user everywhere    // We are sending the token in our reqs to authorize the user using the protect middleware
     // for each place_id
     // Store all the values in database
@@ -22,11 +22,27 @@ const getFavorites = asyncHandler(async (req,res) => {
     res.status(200).json(favorites) 
 })
 
+//  @desc Get menu 
+//  @route GET /api/favorites
+//  @access Private
+
+const getRestaurantFavorites = asyncHandler(async (req,res) => {
+    const favorites = await Favorite.find({place_id: req.restaurant.username}) // Protect middleware provides us the req.user everywhere    // We are sending the token in our reqs to authorize the user using the protect middleware
+    // for each place_id
+    // Store all the values in database
+
+    // Changes user to admin so the middleware auth0orizes admin and stores the data in admin variable.
+
+    
+    res.status(200).json(favorites) 
+})
+
+
 
 //  @desc Create menu 
 //  @route POST /api/menu
 //  @access Private
-const addFavorites = asyncHandler(async (req,res) => { 
+const addCustomerFavorites = asyncHandler(async (req,res) => { 
     // We can deal with body here 
     if(!req.body.place_id) { // place_id is the key we are expecting from our defined case.
         res.status(400)
@@ -82,7 +98,7 @@ const updateFavorites = asyncHandler(async (req,res) => {  // We need a id to up
 //  @desc Delete menu 
 //  @route  DELETE /api/menu/:id
 //  @access Private
-const deleteFavorites = asyncHandler(async (req,res) => { 
+const deleteCustomerFavorites = asyncHandler(async (req,res) => { 
     // get the favorite -> need to delete 
     const favorite = await Favorite.findById(req.params.id) // Since we are passing the dummy id in the url, hence req.params.id
 
@@ -117,5 +133,5 @@ const deleteFavorites = asyncHandler(async (req,res) => {
 // Export the functions 
 
 module.exports = {
-    getFavorites, addFavorites, updateFavorites, deleteFavorites
+    getCustomerFavorites, addCustomerFavorites, updateFavorites, deleteCustomerFavorites, getRestaurantFavorites
 }
