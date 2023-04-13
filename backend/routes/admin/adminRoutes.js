@@ -21,7 +21,6 @@ router.get('/pending', protectAdmin, getPendingResuests)
 router.put('/approve/:id', protectAdmin, approveRestaurant)
 
 // Disapprove restaurant
-// router.put('/disapprove/:id', protectAdmin, disapproveRestaurant)   // Some questions on this function
-
+// router.put('/disapprove/:id', protectAdmin, disapproveRestaurant)   // Not needed for now
 module.exports = router
 

@@ -20,6 +20,9 @@ const router = express.Router()
 // console.log("Here")
 const {protect} = require('../middleware/adminAuthmiddleware')
 
+// Make different api routes for customer favorites and restaurant favorites - Remains to be done
+
+
 router.route('/').get(protectCustomer, getFavorites).post(protectCustomer, addFavorites)
 router.route('/:id').put(protectCustomer, updateFavorites).delete(protectCustomer, deleteFavorites)
 
