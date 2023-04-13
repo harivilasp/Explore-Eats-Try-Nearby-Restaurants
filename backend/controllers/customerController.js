@@ -1,25 +1,25 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
-const User = require('../models/userModel')
+const Customer = require('../models/customerModel')
 
 //  @desc Register new users 
 //  @route Post /api/users
 //  @access Public
-const registerUser = asyncHandler(async (req,res) => {
-    const { name, email, password } = req.body // getting all the fields
+const registerCustomer = asyncHandler(async (req,res) => {
+    const { name, username, phoneNumber, email, password } = req.body // getting all the fields
 
     // Can make this more specific for each missing field
-    if(!name || !email || !password) {
+    if(!name || !email || !password || !username || !phoneNumber) {
         res.status(400)
         throw new Error('Please add all the fields')
     }
 
     // Check if user exists
-    const userExists = await User.findOne({email})
-    if(userExists) {
+    const customerExists = await Customer.findOne({email}) // email is unique and could be used to check if user exists \\ username is also unique \\  could also use phone number
+    if(customerExists) {
         res.status(400)
-        throw new Error('User already exists')
+        throw new Error('Customer already exists')
     }
 
     // Hashing the password
@@ -28,18 +28,24 @@ const registerUser = asyncHandler(async (req,res) => {
     const hashPassword = await bcrypt.hash(password, salt)
 
     // Create user 
-    const user = await User.create({
+    const customer = await Customer.create({
         name,
         email,
-        password: hashPassword
+        username,
+        password: hashPassword,
+        role:"customer",    // default role
+        phoneNumber,
     })
 
-    if(user) {
+    if(customer) {
         res.status(201).json({ // everything is OK and we send the following values back
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id)
+            _id: customer.id,
+            name: customer.name,
+            email: customer.email,
+            token: generateToken(customer._id),
+            username: customer.username,
+            role: customer.role,
+            phoneNumber: customer.phoneNumber,
         })
     } else {
         res.status(400)
@@ -51,23 +57,27 @@ const registerUser = asyncHandler(async (req,res) => {
 //  @desc Authenticate a user
 //  @route Post /api/users/login
 //  @access Public
-const loginUser = asyncHandler(async (req,res) => {
-    const {email, password} = req.body // getting the information from the user
+const loginCustomer = asyncHandler(async (req,res) => {
+    const {username, password} = req.body // getting the information from the frontend 
 
     // First verify that the user exists
-    const user = await User.findOne({email})
+    const customer = await Customer.findOne({username}) // email is unique and could be used to check if user exists \\ username is also unique \\  could also use phone number
 
     // Comparing the passwords using their hashed values 
-    if(user && (await bcrypt.compare(password, user.password))) {
+    if(customer && (await bcrypt.compare(password, customer.password))) {
         // sending back the following fields after login successful
         res.json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id)
+            _id: customer.id,
+            name: customer.name,
+            email: customer.email,
+            token: generateToken(customer._id),
+            username: customer.username,
+            role: customer.role,
+            phoneNumber: customer.phoneNumber,
+
         })
     } else {
-        // Password incorrect or user not found or some other error
+        // Password incorrect or customer not found or some other error
         res.status(400)
         throw new Error('Invalid Credentials')
     }
@@ -79,7 +89,7 @@ const loginUser = asyncHandler(async (req,res) => {
 //  @access Public
 const getMe = asyncHandler(async (req,res) => {
     // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
-    const {_id, name, email} = await User.findById(req.user.id) // We can all fetch others fields 
+    const {_id, name, email} = await Customer.findById(req.customer.id) // We can all fetch others fields 
 
     res.status(200).json({
         id: _id,
@@ -99,5 +109,5 @@ const generateToken = (id) => { // Our token will be payload_id(userID) + secret
 
 
 module.exports = {
-    registerUser, loginUser, getMe
+    registerCustomer, loginCustomer, getMe
 }

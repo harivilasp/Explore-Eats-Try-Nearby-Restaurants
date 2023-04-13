@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Favorite = require('../models/favoritesModel')
-const User = require('../models/userModel')
+const Customer = require('../models/customerModel')
 // Functions 
 
 // All the req/res part 
@@ -11,16 +11,38 @@ const User = require('../models/userModel')
 //  @route GET /api/favorites
 //  @access Private
 
-const getFavorites = asyncHandler(async (req,res) => {
-    const favorites = await Favorite.find({user: req.user.id}) // Protect middleware provides us the req.user everywhere    // We are sending the token in our reqs to authorize the user using the protect middleware
+const getCustomerFavorites = asyncHandler(async (req,res) => {
+    const favorites = await Favorite.find({customer: req.customer.id}) // Protect middleware provides us the req.user everywhere    // We are sending the token in our reqs to authorize the user using the protect middleware
+    // for each place_id
+    // Store all the values in database
+
+    // Changes user to admin so the middleware auth0orizes admin and stores the data in admin variable.
+
+    
     res.status(200).json(favorites) 
 })
+
+//  @desc Get menu 
+//  @route GET /api/favorites
+//  @access Private
+
+const getRestaurantFavorites = asyncHandler(async (req,res) => {
+    const favorites = await Favorite.find({place_id: req.restaurant.username}) // Protect middleware provides us the req.user everywhere    // We are sending the token in our reqs to authorize the user using the protect middleware
+    // for each place_id
+    // Store all the values in database
+
+    // Changes user to admin so the middleware auth0orizes admin and stores the data in admin variable.
+
+    
+    res.status(200).json(favorites) 
+})
+
 
 
 //  @desc Create menu 
 //  @route POST /api/menu
 //  @access Private
-const addFavorites = asyncHandler(async (req,res) => { 
+const addCustomerFavorites = asyncHandler(async (req,res) => { 
     // We can deal with body here 
     if(!req.body.place_id) { // place_id is the key we are expecting from our defined case.
         res.status(400)
@@ -29,7 +51,8 @@ const addFavorites = asyncHandler(async (req,res) => {
 
     const favorite = await Favorite.create({
         place_id: req.body.place_id, 
-        user: req.user.id 
+        customer: req.customer.id 
+        // put fields here and store them 
     })
     // console.log(req.body)
     res.status(200).json(favorite) 
@@ -49,16 +72,16 @@ const updateFavorites = asyncHandler(async (req,res) => {  // We need a id to up
     }
 
     // get the user
-    const user = await User.findById(req.user.id)
+    const customer = await Customer.findById(req.customer.id)
 
     // check for user
-    if(!user) {
+    if(!customer) {
         res.status(401) // not authorised
         throw new Error('User not found')
     }
 
     // Check that the logged in user is the goal user
-    if(favorite.user.toString() !== user.id){   // favorite.user is of type id and in object form so we convert it to string type
+    if(favorite.customer.toString() !== customer.id){   // favorite.user is of type id and in object form so we convert it to string type
         res.status(401) // not authorized
         throw new Error('User not authorized')
     }    
@@ -75,7 +98,7 @@ const updateFavorites = asyncHandler(async (req,res) => {  // We need a id to up
 //  @desc Delete menu 
 //  @route  DELETE /api/menu/:id
 //  @access Private
-const deleteFavorites = asyncHandler(async (req,res) => { 
+const deleteCustomerFavorites = asyncHandler(async (req,res) => { 
     // get the favorite -> need to delete 
     const favorite = await Favorite.findById(req.params.id) // Since we are passing the dummy id in the url, hence req.params.id
 
@@ -85,16 +108,16 @@ const deleteFavorites = asyncHandler(async (req,res) => {
     }
 
     // get the user
-    const user = await User.findById(req.user.id)
+    const customer = await Customer.findById(req.customer.id)
 
     // check for user
-    if(!user) {
+    if(!customer) {
         res.status(401) // not authorised
         throw new Error('User not found')
     }
 
     // Check that the logged in user is the goal user
-    if(favorite.user.toString() !== user.id){   // favorite.user is of type id and in object form so we convert it to string type
+    if(favorite.customer.toString() !== customer.id){   // favorite.user is of type id and in object form so we convert it to string type
         res.status(401) // not authorized
         throw new Error('User not authorized')
     }    
@@ -110,5 +133,5 @@ const deleteFavorites = asyncHandler(async (req,res) => {
 // Export the functions 
 
 module.exports = {
-    getFavorites, addFavorites, updateFavorites, deleteFavorites
+    getCustomerFavorites, addCustomerFavorites, updateFavorites, deleteCustomerFavorites, getRestaurantFavorites
 }

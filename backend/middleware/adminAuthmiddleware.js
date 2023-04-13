@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const User = require('../models/userModel')
+const Admin = require('../models/adminModel')
 
 // The token to check will be in the header of the request
-const protect = asyncHandler(async (req, res, next) => {
+const protectAdmin = asyncHandler(async (req, res, next) => {
     let token 
 
     // First we check if the req header has the authorization or not. If it has then is it in proper format or not?
@@ -16,10 +16,16 @@ const protect = asyncHandler(async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
             // Get user from the token
-            req.user = await User.findById(decoded.id).select('-password')  // Since we are signing the token using User ID => look in userController.js
+            req.admin = await Admin.findById(decoded.id).select('-password')  // Since we are signing the token using User ID => look in userController.js
             // Also we dont want the hashed password so we select everything except the password hence '-password 
             
-            next()
+            if (req.admin) {
+                next();
+            }
+            else {
+                res.status(401)
+                throw new Error('Not Authroized')
+            }
         
             } catch (error) {
                 console.log(error)
@@ -34,4 +40,4 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 })
 
-module.exports = { protect }
+module.exports = { protectAdmin }
