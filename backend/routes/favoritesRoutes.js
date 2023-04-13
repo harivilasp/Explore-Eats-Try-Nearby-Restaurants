@@ -12,15 +12,21 @@
 
 const { Router } = require('express')
 const express = require('express')
-const { getFavorites, addFavorites, updateFavorites, deleteFavorites } = require('../controllers/favoritesController')
+const { getCustomerFavorites, addCustomerFavorites, updateFavorites, deleteCustomerFavorites, getRestaurantFavorites} = require('../controllers/favoritesController')
 const { protectCustomer } = require('../middleware/customerAuthMiddleware')
+const { protectRestaurant } = require('../middleware/restaurantAuthMiddleware')
 
 const router = express.Router()
 
 // console.log("Here")
 const {protect} = require('../middleware/adminAuthmiddleware')
 
-router.route('/').get(protectCustomer, getFavorites).post(protectCustomer, addFavorites)
-router.route('/:id').put(protectCustomer, updateFavorites).delete(protectCustomer, deleteFavorites)
+// Make different api routes for customer favorites and restaurant favorites - Remains to be done
+
+
+router.route('/').get(protectCustomer, getCustomerFavorites).post(protectCustomer, addCustomerFavorites)
+router.route('/:id').put(protectCustomer, updateFavorites).delete(protectCustomer, deleteCustomerFavorites)
+
+router.route('/restaurantFavorite').get(protectRestaurant, getRestaurantFavorites)
 
 module.exports = router   
