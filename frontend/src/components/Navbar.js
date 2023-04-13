@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ExploreEats from '../assets/ExploreEats_flat.png'
-const Navbar = () => {
+const Navbar = ({isLoggedIn}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -55,39 +55,64 @@ const Navbar = () => {
             Options
           </button>
           {showDropdown && (
-            <div className="absolute z-10 right-0 w-40 py-2 mt-2 bg-white border rounded-md shadow-lg">
-              <a
-                href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                Profile
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                Site Preferences
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                Contact Us
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                Logout
-              </a>
-            </div>
-          )}
+  <div className="absolute z-10 right-0 w-40 py-2 mt-2 bg-white border rounded-md shadow-lg">
+    {isLoggedIn ? (
+      <>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Home
+        </a>
+        <a
+          href="/profile"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Profile
+        </a>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Site Preferences
+        </a>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Contact Us
+        </a>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Logout
+        </a>
+      </>
+    ) : (
+      <>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Home
+        </a>
+        <a
+          href="/login"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Login
+        </a>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Contact Us
+        </a>
+      </>
+    )}
+  </div>
+)}
         </div>
       </div>
     </nav>
