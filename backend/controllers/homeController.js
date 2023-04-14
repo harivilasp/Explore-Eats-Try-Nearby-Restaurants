@@ -19,5 +19,6 @@ exports.getPlaceDetails = (req, res) => {
 // };
 
 exports.getHomePageByName = (req, res) => {
+  // console.log(req.params.placeName);
   getFindPlaceFromText.getFindPlaceFromText(req, res);
 };
