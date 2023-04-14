@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const postData = async (data) => {
   try {
     const response = await axios.post("http://localhost:5001/api/search", data);
-    return response.data.results;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
@@ -17,7 +17,7 @@ function Home() {
   useEffect(() => {
     async function fetchData() {
       const data = await postData({ lat: 40.7128, lng: -74.006 });
-      console.log("data -- got from backend", data);
+      // console.log("data -- got from backend", data);
       setRestaurants(data);
     }
     fetchData();
@@ -28,14 +28,19 @@ function Home() {
   return (
     <div className="flex">
       {restaurants &&
-        restaurants.map(
-          (restaurant) => (
-            console.log("restaurant", restaurant),
-            (<Card key={restaurant.place_id} restaurant={restaurant} />)
-          )
-        )}
+        restaurants.map((restaurant) => (
+          <Card key={restaurant.place_id} restaurant={restaurant} />
+        ))}
+
+      {/* <pre>
+        <code>{JSON.stringify(restaurants, null, 2)}</code>
+      </pre> */}
     </div>
   );
 }
 
 export default Home;
+
+{
+  /* <Card key={restaurant.place_id} restaurant={restaurant} /> */
+}

@@ -1,6 +1,10 @@
 import React from "react";
 
-const Card = ({ name, rating, user_ratings_total, vicinity }) => {
+const Card = ({ restaurant }) => {
+  var { name, rating, user_ratings_total, vicinity } = restaurant;
+  // <pre>
+  //   <code>{JSON.stringify(restaurant, null, 2)}</code>
+  // </pre>;
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden w-full md:w-1/3 mx-4 my-6">
       {/* Image */}
