@@ -1,16 +1,19 @@
 import React from "react";
 
 const Card = ({ restaurant }) => {
-  var { name, rating, user_ratings_total, vicinity } = restaurant;
+  var { name, rating, user_ratings_total, vicinity, photos } = restaurant;
   // <pre>
   //   <code>{JSON.stringify(restaurant, null, 2)}</code>
   // </pre>;
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden w-full md:w-1/3 mx-4 my-6">
       {/* Image */}
+      {/* <pre>
+        <code>{JSON.stringify(photos, null, 2)}</code>
+      </pre> */}
       <img
         className="h-64 w-full object-cover"
-        src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b"
+        src={photos[0].photo_reference}
         alt="A beautiful and cozy home"
       />
 
