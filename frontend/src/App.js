@@ -8,6 +8,7 @@ import Login from "./containers/Login";
 import Register from "./containers/Register";
 import Profile from "./containers/Profile";
 import Restaurant from "./components/Restaurant";
+import SearchResults from "./containers/SearchResults";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/restaurant/:place_id" element={<Restaurant />} />
+        <Route path="/search/:searchTerm" element={<SearchResults />} />
       </Routes>
 
       <Footer />

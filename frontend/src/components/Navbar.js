@@ -14,6 +14,8 @@ const Navbar = ({ isLoggedIn }) => {
     // event.target.get("searchTerm");
     // get the search term and send it to the backend
     console.log(searchTerm);
+    // navigate to the search page
+    window.location.href = `/search/${searchTerm}`;
   };
 
   return (
