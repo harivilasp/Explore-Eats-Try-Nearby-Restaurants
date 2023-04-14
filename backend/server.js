@@ -12,6 +12,7 @@ const app = express();
 
 // Cors is used to allow the frontend to access the backend
 const cors = require("cors");
+const { getPlaceDetails } = require("./services/api-requests");
 app.use(cors());
 
 // API Requests are handles in routes folder in each file using express
@@ -45,6 +46,11 @@ app.use("/api/users/", require("./routes/unprotectedRoutes/profileRoutes"));
 
 // Restaurant search
 app.use("/api/search", require("./routes/unprotectedRoutes/searchRoutes"));
+
+app.use(
+  "/api/restaurant",
+  require("./routes/unprotectedRoutes/restaurantProfileRoutes")
+);
 
 // middleware
 

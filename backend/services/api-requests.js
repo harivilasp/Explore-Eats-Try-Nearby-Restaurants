@@ -25,13 +25,14 @@ exports.getNearByPlaces = (req, res) => {
 
 // Get the place details
 exports.getPlaceDetails = (req, res) => {
-  const { placeId } = req.body;
+  const { placeId } = req.params;
   const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,formatted_phone_number,formatted_address,opening_hours,website,geometry&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  console.log(url);
   axios
     .get(url)
     .then((response) => {
-      console.log(response.data);
-      res.json(response.data);
+      console.log(response.data.result);
+      res.json(response.data.result);
     })
     .catch((error) => {
       console.log(error);

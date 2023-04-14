@@ -11,6 +11,7 @@ exports.getHomePage = (req, res) => {
 };
 
 exports.getPlaceDetails = (req, res) => {
+  // console.log(req.params.placeId);
   getPlaceDetails.getPlaceDetails(req, res);
 };
 
