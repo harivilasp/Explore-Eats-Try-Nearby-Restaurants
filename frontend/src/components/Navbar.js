@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import ExploreEats from '../assets/ExploreEats_flat.png'
-import {login} from "../redux/slices/authSlice";
+import {logout} from "../redux/slices/authSlice";
 
 const Navbar = ({isLoggedIn}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const dispatch = useDispatch()
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between w-full px-8 py-4 bg-white shadow-md">
@@ -85,12 +90,12 @@ const Navbar = ({isLoggedIn}) => {
         >
           Contact Us
         </a>
-        <a
-          href="#"
+        <button
+          onClick={handleLogout}
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Logout
-        </a>
+        </button>
       </>
     ) : (
       <>

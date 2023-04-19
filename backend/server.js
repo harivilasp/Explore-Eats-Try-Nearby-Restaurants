@@ -1,5 +1,6 @@
 // console.log('Hello world')
 const express = require('express')
+const cors = require('cors')
 const dotenv = require('dotenv').config() 
 const {errorHandler} = require('./middleware/errorMiddleware')
 const colors = require('colors')
@@ -13,6 +14,7 @@ const app = express()
 // API Requests are handles in routes folder in each file using express
 
 // Some middlewares
+app.use(cors())
 app.use(express.json()) // Used to parse json
 app.use(express.urlencoded({extended: false})) // We are sending data in this format in Postman
 

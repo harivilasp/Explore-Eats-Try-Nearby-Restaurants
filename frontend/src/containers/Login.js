@@ -16,8 +16,6 @@ const Login = ({setIsLoggedIn}) => {
       // TODO: Login auth
       dispatch(signInWithAPI(email, password))
 
-
-      console.log(`Email: ${email} Password: ${password}`);
       setIsLoggedIn(true);
       navigate('/')
     };
