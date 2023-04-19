@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch} from 'react-redux';
 import { Link, useNavigate} from 'react-router-dom';
 import '../styles/LoginRegister.css'; // Import CSS file
+import { signInWithAPI } from '../redux/slices/authSlice';
 
 const Login = ({setIsLoggedIn}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const handleSubmit = (event) => {
       event.preventDefault();
       // TODO: Login auth
+      dispatch(signInWithAPI(email, password))
+
+
       console.log(`Email: ${email} Password: ${password}`);
       setIsLoggedIn(true);
       navigate('/')
@@ -21,7 +29,7 @@ const Login = ({setIsLoggedIn}) => {
           <label>
             Email:
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               className="input-field"

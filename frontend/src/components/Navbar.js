@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import ExploreEats from '../assets/ExploreEats_flat.png'
+import {login} from "../redux/slices/authSlice";
+
 const Navbar = ({isLoggedIn}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
