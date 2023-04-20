@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/LoginRegister.css';
-const Register = () => {
+const RegisterRestaurant = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,8 +12,9 @@ const Register = () => {
   };
 
   return (
+    <div>
     <div className="form-container">
-      <h2>Register</h2>
+      <h2>Register as Restaurant Owner</h2>
       <form onSubmit={handleSubmit} className="form">
         <label>
           Name:
@@ -46,12 +47,14 @@ const Register = () => {
         </label>
         <br />
         <button type="submit" className="submit-button">Submit</button>
+        
       </form>
-      <p className="form-text">
+    </div>
+    <p className="form-text ml-12">
         Already have an account? <Link to="/login">Login here</Link>.
       </p>
     </div>
   );
 };
 
-export default Register;
+export default RegisterRestaurant;

@@ -23,9 +23,19 @@ export const authSlice = createSlice({
 export const {login, logout} = authSlice.actions
 export default authSlice.reducer
 
-export const signInWithAPI = (username, password) => {
+export const signInWithAPICustomer = (username, password) => {
     return async dispatch => {
         const response = await axios.post(`${BASE_URL}/api/customers/login`, {
+            username,
+            password
+        })
+        const userData = response.data
+        dispatch(login(userData))
+    }
+}
+export const signInWithAPIRestaurant = (username, password) => {
+    return async dispatch => {
+        const response = await axios.post(`${BASE_URL}/api/restaurants/login`, {
             username,
             password
         })
