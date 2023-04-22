@@ -16,6 +16,15 @@ const Navbar = ({isLoggedIn}) => {
   const handleLogout = () => {
     dispatch(logout())
   }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(event.target);
+    // event.target.get("searchTerm");
+    // get the search term and send it to the backend
+    console.log(searchTerm);
+    // navigate to the search page
+    window.location.href = `/search/${searchTerm}`;
+  };
 
   return (
     <nav className="sticky z-50 flex items-center justify-between w-full px-8 py-4 bg-white shadow-md">
@@ -34,13 +43,15 @@ const Navbar = ({isLoggedIn}) => {
             <path d="M22.8,21.4L18.5,17.1c1.2-1.5,1.9-3.4,1.9-5.5c0-5-4-9-9-9s-9,4-9,9s4,9,9,9c2.1,0,4-0.7,5.5-1.9l4.3,4.3c0.4,0.4,1,0.4,1.4,0C23.2,22.4,23.2,21.8,22.8,21.4z M4,10c0-3.3,2.7-6,6-6s6,2.7,6,6s-2.7,6-6,6S4,13.3,4,10z" />
           </svg>
         </div>
-        <input
-          type="text"
-          className="w-full pl-10 pr-4 py-2 rounded-md border focus:outline-none focus:border-blue-500"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="w-full pl-10 pr-4 py-2 rounded-md border focus:outline-none focus:border-blue-500"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleChange}
+          />
+        </form>
       </div>
 
       {/* Buttons and Dropdown */}
