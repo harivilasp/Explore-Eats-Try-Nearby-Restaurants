@@ -43,3 +43,13 @@ export const signInWithAPIRestaurant = (username, password) => {
         dispatch(login(userData))
     }
 }
+export const signInWithAPIAdmin = (username, password) => {
+    return async dispatch => {
+        const response = await axios.post(`${BASE_URL}/api/admins/login`, {
+            username,
+            password
+        })
+        const userData = response.data
+        dispatch(login(userData))
+    }
+}

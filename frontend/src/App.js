@@ -9,6 +9,8 @@ import RegisterCustomer from './containers/RegisterCustomer';
 import RegisterRestaurant from './containers/RegisterRestaurant';
 import Profile from './containers/Profile'
 import Restaurant from "./containers/Restaurant";
+import AdminLogin from "./containers/AdminLogin";
+import Maps from "./containers/Maps";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/register-restaurant" element={<RegisterRestaurant />} />
         <Route path="/profile" element = {<Profile/>}/>
         <Route path="/restaurant" element = {<Restaurant/>}/>
+        <Route path="/admin-login" element = {<AdminLogin/>}/>
+        <Route path="/maps" element = {<Maps/>}/>
       </Routes>
      
       <Footer />

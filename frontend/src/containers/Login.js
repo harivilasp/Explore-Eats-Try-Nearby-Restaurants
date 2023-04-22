@@ -91,7 +91,6 @@ const Login = () => {
             </div>
           </div>
         </div>
-        {/* <button className='submit-button'>Admin Login</button> */}
         </div>
     );
 };

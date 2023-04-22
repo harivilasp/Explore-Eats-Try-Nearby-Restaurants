@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import ExploreEats from '../assets/ExploreEats_flat.png'
 import {logout} from "../redux/slices/authSlice";
+import { Link } from 'react-router-dom';
 
 const Navbar = ({isLoggedIn}) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,11 +18,11 @@ const Navbar = ({isLoggedIn}) => {
   }
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between w-full px-8 py-4 bg-white shadow-md">
+    <nav className="sticky z-50 flex items-center justify-between w-full px-8 py-4 bg-white shadow-md">
       {/* Logo */}
-      {/* <a href="#" className="mr-4 text-lg font-bold text-gray-800"> */}
-        <img src = {ExploreEats} width="200" height="100"/>
-      {/* </a> */}
+      <Link to="/">
+        <img src = {ExploreEats} width="200" height="100" alt="logo"/>
+      </Link>
 
       {/* Search Bar */}
       <div className="relative w-full max-w-xl">
@@ -45,13 +46,13 @@ const Navbar = ({isLoggedIn}) => {
       {/* Buttons and Dropdown */}
       <div className="flex items-center space-x-4">
         {/* Your Maps button */}
-        <button className="px-4 py-2 text-gray-600 hover:text-gray-800">
-          Your Maps
-        </button>
+        <Link to="/maps" className="px-4 py-2 text-gray-600 hover:text-gray-800">
+          Map
+        </Link>
 
         {/* Your Saved Spaces button */}
         <button className="px-4 py-2 text-gray-600 hover:text-gray-800">
-          Your Saved Spaces
+          Your Favorites
         </button>
 
         {/* Dropdown */}
@@ -66,30 +67,27 @@ const Navbar = ({isLoggedIn}) => {
   <div className="absolute z-10 right-0 w-40 py-2 mt-2 bg-white border rounded-md shadow-lg">
     {isLoggedIn ? (
       <>
-        <a
-          href="#"
+        <Link to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Home
-        </a>
-        <a
+        </Link>
+        <Link to="/"
           href="/profile"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Profile
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Site Preferences
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Contact Us
-        </a>
+        </Link>
         <button
           onClick={handleLogout}
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
@@ -99,24 +97,26 @@ const Navbar = ({isLoggedIn}) => {
       </>
     ) : (
       <>
-        <a
-          href="#"
+        <Link to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Home
-        </a>
-        <a
-          href="/login"
+        </Link>
+        <Link to="/login"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Login
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link to="/admin-login"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Admin Login
+        </Link>
+        <Link to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Contact Us
-        </a>
+        </Link>
       </>
     )}
   </div>
