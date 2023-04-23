@@ -1,7 +1,7 @@
 import React from "react";
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-6 w-full" style={{ height: "210px"}}>
+    <footer className="bg-gray-900 text-white py-6 w-full" style={{ height: "210px", position: "fixed", bottom: 0 }}>
       <div className="container flex flex-col md:flex-row justify-between mx-auto">
         {/* Contact Information */}
         <div className="flex flex-col items-center mb-8 md:mb-0 md:mr-12">

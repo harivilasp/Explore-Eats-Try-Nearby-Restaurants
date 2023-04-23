@@ -46,24 +46,6 @@ const Card = ({ restaurant }) => {
           <span className="text-gray-600"> ({user_ratings_total} reviews)</span>
         </div>
 
-        {/* Description */}
-        <p className="text-gray-700 leading-loose mb-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          fringilla ligula nulla, sed faucibus libero commodo vel. Aliquam erat
-          volutpat. Sed id commodo nibh. Sed luctus lobortis metus, sed tempor
-          turpis interdum quis. Cras tristique pharetra ante, sit amet
-          consectetur nisl.
-        </p>
-
-        {/* Price */}
-        <p className="text-green-500 font-semibold text-lg mb-2">
-          $129 / night
-        </p>
-
-        {/* Book button */}
-        <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full">
-          Book now
-        </button>
       </div>
     </Link>
   );
