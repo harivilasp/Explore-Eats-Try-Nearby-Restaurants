@@ -2,6 +2,8 @@ import Card from "../components/Card";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const postData = async (data) => {
   try {
     const response = await axios.post("http://localhost:5001/api/search", data);
