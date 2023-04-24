@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import '../styles/LoginRegister.css';
 const RegisterCustomer = () => {
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,11 +29,11 @@ const RegisterCustomer = () => {
         </label>
         <br />
         <label>
-          Email:
+          Username:
           <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            type="text"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
             className="input-field"
           />
         </label>
@@ -42,6 +44,26 @@ const RegisterCustomer = () => {
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            className="input-field"
+          />
+        </label>
+        <br />
+        <label>
+          Phone Number:
+          <input
+            type="number"
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
+            className="input-field"
+          />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             className="input-field"
           />
         </label>

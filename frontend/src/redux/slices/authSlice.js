@@ -5,6 +5,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const initialState = {
     user: null,
+    role: null,
 }
 
 export const authSlice = createSlice({
@@ -12,10 +13,12 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            state.user = action.payload
+            state.user = action.payload;
+            state.role = action.payload.role;
         },
         logout: (state) => {
-            state.user = null
+            state.user = null;
+            state.role = null;
         }
     }
 })
@@ -30,7 +33,7 @@ export const signInWithAPICustomer = (username, password) => {
             password
         })
         const userData = response.data
-        dispatch(login(userData))
+        dispatch(login({ user: userData, role: "customer" }));
     }
 }
 export const signInWithAPIRestaurant = (username, password) => {
@@ -40,7 +43,7 @@ export const signInWithAPIRestaurant = (username, password) => {
             password
         })
         const userData = response.data
-        dispatch(login(userData))
+        dispatch(login({ user: userData, role: "restaurant" }));
     }
 }
 export const signInWithAPIAdmin = (username, password) => {
@@ -50,6 +53,6 @@ export const signInWithAPIAdmin = (username, password) => {
             password
         })
         const userData = response.data
-        dispatch(login(userData))
+        dispatch(login({ user: userData, role: "admin" }));
     }
 }

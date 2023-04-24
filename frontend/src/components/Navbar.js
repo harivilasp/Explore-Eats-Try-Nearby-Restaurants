@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ExploreEats from '../assets/ExploreEats_flat.png'
 import {logout} from "../redux/slices/authSlice";
 import { Link } from 'react-router-dom';
 
-const Navbar = ({isLoggedIn}) => {
+const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch()
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -26,10 +26,19 @@ const Navbar = ({isLoggedIn}) => {
     window.location.href = `/search/${searchTerm}`;
   };
 
+  useEffect(() => {
+    if(user)
+    console.log(user.role+",");
+  }, [user]);
+  
+  const toggle = () => {
+    setShowDropdown(false)
+  }
+
   return (
     <nav className="sticky z-50 flex items-center justify-between w-full px-8 py-4 bg-white shadow-md">
       {/* Logo */}
-      <Link to="/">
+      <Link onClick={toggle} to="/">
         <img src = {ExploreEats} width="200" height="100" alt="logo"/>
       </Link>
 
@@ -57,15 +66,18 @@ const Navbar = ({isLoggedIn}) => {
       {/* Buttons and Dropdown */}
       <div className="flex items-center space-x-4">
         {/* Your Maps button */}
+        {user && user.role === "customer" && (
+      <>
         <Link to="/maps" className="px-4 py-2 text-gray-600 hover:text-gray-800">
           Map
         </Link>
 
         {/* Your Saved Spaces button */}
-        <button className="px-4 py-2 text-gray-600 hover:text-gray-800">
+        <Link to="/favorites" className="px-4 py-2 text-gray-600 hover:text-gray-800">
           Your Favorites
-        </button>
-
+        </Link>
+        </>
+        )}
         {/* Dropdown */}
         <div className="relative">
           <button
@@ -76,25 +88,25 @@ const Navbar = ({isLoggedIn}) => {
           </button>
           {showDropdown && (
   <div className="absolute z-10 right-0 w-40 py-2 mt-2 bg-white border rounded-md shadow-lg">
-    {isLoggedIn ? (
+    {user && user.role === "customer" && (
       <>
-        <Link to="/"
+        <Link onClick={toggle} to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Home
         </Link>
-        <Link to="/"
+        <Link onClick={toggle} to="/"
           href="/profile"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Profile
         </Link>
-        <Link to="/"
+        <Link onClick={toggle} to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Site Preferences
         </Link>
-        <Link to="/"
+        <Link onClick={toggle} to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Contact Us
@@ -106,30 +118,74 @@ const Navbar = ({isLoggedIn}) => {
           Logout
         </button>
       </>
-    ) : (
+    )}
+    {user && user.role === "restaurant"  && (
       <>
-        <Link to="/"
+        <Link onClick={toggle} to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
-          Home
+          Restaurant Overview
         </Link>
-        <Link to="/login"
+        <Link onClick={toggle} to="/login"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
-          Login
+          Settings
         </Link>
-        <Link to="/admin-login"
+        <button
+          onClick={handleLogout}
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
-          Admin Login
-        </Link>
-        <Link to="/"
-          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-        >
-          Contact Us
-        </Link>
+          Logout
+        </button>
+        
       </>
     )}
+    {user && user.role === "admin"  && (
+      <>
+      <Link onClick={toggle} to="/"
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Dashboard
+      </Link>
+      <Link onClick={toggle} to="/login"
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Settings
+      </Link>
+      <button
+        onClick={handleLogout}
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Logout
+      </button>
+      
+    </>
+    )}
+    {user === null && (
+  <>
+    <Link onClick={toggle} to="/" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+      Home
+    </Link>
+    <Link onClick={toggle}
+      to="/login"
+      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+    >
+      Login
+    </Link>
+    <Link onClick={toggle}
+      to="/admin-login"
+      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+    >
+      Admin Login
+    </Link>
+    <Link onClick={toggle}
+      to="/"
+      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+    >
+      Contact Us
+    </Link>
+  </>
+)}
   </div>
 )}
         </div>
