@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LoginRegister.css'; // Import CSS file
 import { signInWithAPIAdmin } from '../redux/slices/authSlice';
@@ -11,12 +11,10 @@ function AdminLogin() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const {adminAuthError} = useSelector(state => state.auth)
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(signInWithAPIAdmin(email, password));
-        //setIsLoggedIn(true);
-        navigate('/');
+        dispatch(signInWithAPIAdmin(email, password, navigate));
     };
 
   return (
@@ -45,6 +43,9 @@ function AdminLogin() {
                         />
                     </label>
                     <br />
+                    {adminAuthError && (
+                                <p style={{ color: "red" }}>* Invalid Username or Password</p>
+                            )}
                     <button type="submit" className="submit-button">Submit</button>
                 </form>
                 

@@ -95,38 +95,38 @@ const Navbar = () => {
         >
           Home
         </Link>
-        <Link onClick={toggle} to="/"
-          href="/profile"
+        <Link onClick={toggle} to="/customer-profile"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Profile
         </Link>
-        <Link onClick={toggle} to="/"
+        <Link onClick={toggle} to="/customer-settings"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
-          Site Preferences
+          Settings
         </Link>
-        <Link onClick={toggle} to="/"
+        <Link onClick={toggle} to="/contact"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Contact Us
         </Link>
-        <button
+        <Link
+          to="/"
           onClick={handleLogout}
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Logout
-        </button>
+        </Link>
       </>
     )}
     {user && user.role === "restaurant"  && (
       <>
-        <Link onClick={toggle} to="/"
+        <Link onClick={toggle} to="/restaurant-profile"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Restaurant Overview
         </Link>
-        <Link onClick={toggle} to="/login"
+        <Link onClick={toggle} to="/restaurant-settings"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Settings
@@ -142,22 +142,17 @@ const Navbar = () => {
     )}
     {user && user.role === "admin"  && (
       <>
-      <Link onClick={toggle} to="/"
+      <Link onClick={toggle} to="/dashboard"
         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
       >
         Dashboard
       </Link>
-      <Link onClick={toggle} to="/login"
-        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-      >
-        Settings
-      </Link>
-      <button
+      <Link
         onClick={handleLogout}
         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
       >
         Logout
-      </button>
+      </Link>
       
     </>
     )}
