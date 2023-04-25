@@ -8,7 +8,6 @@ import RegisterCustomer from "./containers/RegisterCustomer";
 import RegisterRestaurant from "./containers/RegisterRestaurant";
 import Restaurant from "./containers/Restaurant";
 import AdminLogin from "./containers/AdminLogin";
-import Maps from "./containers/Maps";
 import SearchResults from "./containers/SearchResults";
 import Favorites from "./containers/Favorites";
 import Dashboard from "./containers/Dashboard";
@@ -42,14 +41,6 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         {/* customer */}
         <Route path="/register-customer" element={<RegisterCustomer />} />
-        <Route 
-          path="/maps" 
-          element={
-            <RoleBasedElement allowedRoles={["customer"]}>
-            <Maps />
-            </RoleBasedElement>
-          } 
-          />
         <Route
           path="/favorites"
           element={

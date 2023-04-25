@@ -132,3 +132,4 @@ export const registerRestaurantWithAPI = (payload) => {
         dispatch(login({ user: registrationData, role: "restaurant" }));
     };
 };
+

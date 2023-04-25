@@ -21,15 +21,12 @@ const Navbar = () => {
     // console.log(event.target);
     // event.target.get("searchTerm");
     // get the search term and send it to the backend
-    console.log(searchTerm);
+    
     // navigate to the search page
     window.location.href = `/search/${searchTerm}`;
   };
 
-  useEffect(() => {
-    if(user)
-    console.log(user.role+",");
-  }, [user]);
+
   
   const toggle = () => {
     setShowDropdown(false)
@@ -65,14 +62,9 @@ const Navbar = () => {
 
       {/* Buttons and Dropdown */}
       <div className="flex items-center space-x-4">
-        {/* Your Maps button */}
         {user && user.role === "customer" && (
       <>
-        <Link to="/maps" className="px-4 py-2 text-gray-600 hover:text-gray-800">
-          Map
-        </Link>
 
-        {/* Your Saved Spaces button */}
         <Link to="/favorites" className="px-4 py-2 text-gray-600 hover:text-gray-800">
           Your Favorites
         </Link>

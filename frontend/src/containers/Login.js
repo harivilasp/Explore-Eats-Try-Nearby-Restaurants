@@ -9,7 +9,7 @@ import {
 } from "../redux/slices/authSlice";
 
 const Login = () => {
-    const [customerEmail, setCustomerEmail] = useState("");
+    const [customerUsername, setCustomerUsername] = useState("");
     const [customerPassword, setCustomerPassword] = useState("");
     const [ownerEmail, setOwnerEmail] = useState("");
     const [ownerPassword, setOwnerPassword] = useState("");
@@ -28,7 +28,7 @@ const Login = () => {
 
     const handleCustomerSubmit = (event) => {
         event.preventDefault();
-        dispatch(signInWithAPICustomer(customerEmail, customerPassword, navigate));
+        dispatch(signInWithAPICustomer(customerUsername, customerPassword, navigate));
         //setIsLoggedIn(true);
     };
 
@@ -51,11 +51,11 @@ const Login = () => {
                         <h2>Customer Login</h2>
                         <form onSubmit={handleCustomerSubmit} className="form">
                             <label>
-                                Email:
+                                Username:
                                 <input
                                     type="text"
-                                    value={customerEmail}
-                                    onChange={(event) => setCustomerEmail(event.target.value)}
+                                    value={customerUsername}
+                                    onChange={(event) => setCustomerUsername(event.target.value)}
                                     className="input-field"
                                 />
                             </label>

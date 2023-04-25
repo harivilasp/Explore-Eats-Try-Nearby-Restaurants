@@ -19,20 +19,20 @@ const Footer = () => {
 
         {/* Social Media Handles */}
         <div className="flex items-center space-x-4">
-          <a
-            href="#"
-            className="text-gray-400 hover:text-white hover:underline mr-20"
+        <a
+            href="https://www.facebook.com"
+            className="text-gray-400 hover:text-white hover:underline mr-3"
           >
             Facebook
           </a>
           <a
-            href="#"
-            className="text-gray-400 hover:text-white hover:underline mr-20"
+            href="https://www.twitter.com"
+            className="text-gray-400 hover:text-white hover:underline mr-10"
           >
             Twitter
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com"
             className="text-gray-400 hover:text-white hover:underline mr-20"
           >
             Instagram
