@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function Restaurant() {
+function RestaurantComponent() {
   const [restaurant, setRestaurant] = useState({});
   // const [loading, setLoading] = useState(true);
   const { place_id } = useParams();
@@ -23,15 +23,18 @@ function Restaurant() {
   //   return <div>Loading...</div>;
   // }
   return (
-    <pre>{JSON.stringify(restaurant, null, 2)}</pre>
-    // <div className="restaurant">
-    //   <h1>{restaurant.name}</h1>
-    //   <p>{restaurant.email}</p>
-    //   <p>{restaurant.phoneNumber}</p>
-    //   <p>{restaurant.address}</p>
-    //   <p>{restaurant.status}</p>
-    // </div>
+    // <pre>{JSON.stringify(restaurant, null, 2)}</pre>
+    <div className="restaurant">
+      {/* <p>
+        <img src={restaurant.photo_reference}> </img>
+      </p> */}
+      <h1>{restaurant.name}</h1>
+      <p>{restaurant.rating}</p>
+      <p>{restaurant.formatted_phone_number}</p>
+      <p>{restaurant.website}</p>
+      <p>{restaurant.formatted_address}</p>
+    </div>
   );
 }
 
-export default Restaurant;
+export default RestaurantComponent;

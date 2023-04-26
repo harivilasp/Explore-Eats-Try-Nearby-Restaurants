@@ -2,6 +2,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Card from "../components/Card";
 
 function SearchResults() {
   const [result, setResult] = useState({});
@@ -22,14 +23,14 @@ function SearchResults() {
   //   return <div>Loading...</div>;
   // }
   return (
-    <pre>{JSON.stringify(result, null, 2)}</pre>
-    // <div className="restaurant">
-    //   <h1>{restaurant.name}</h1>
-    //   <p>{restaurant.email}</p>
-    //   <p>{restaurant.phoneNumber}</p>
-    //   <p>{restaurant.address}</p>
-    //   <p>{restaurant.status}</p>
-    // </div>
+    <div className="flex">
+      <pre>{JSON.stringify(result, null, 2)}</pre>
+      {/* display search results
+      console.log(result.type);
+      {result.map((restaurant) => (
+        <Card restaurant={restaurant} />
+      ))} */}
+    </div>
   );
 }
 
