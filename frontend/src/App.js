@@ -30,14 +30,7 @@ function App() {
         <Route path="/register-restaurant" element={<RegisterRestaurant />} />
         <Route path="/restaurant" element={<Restaurant />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route 
-          path="/search/:searchTerm" 
-          element={
-          <RoleBasedElement allowedRoles={["customer"]}>
-            <SearchResults />
-          </RoleBasedElement>
-            } 
-          />
+        <Route path="/search/:searchTerm" element={<SearchResults />}/>
         <Route path="/contact" element={<Contact />} />
         {/* customer */}
         <Route path="/register-customer" element={<RegisterCustomer />} />
