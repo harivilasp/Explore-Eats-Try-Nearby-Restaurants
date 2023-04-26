@@ -1,15 +1,33 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function RestaurantSettings() {
   const user = useSelector((state) => state.auth.user);
+  // Change name state
+  const [name, setName] = useState(user.user.name);
+  // Change phone Number state
+  const [phoneNumber, setPhoneNumber] = useState(user.user.phoneNumber);
+  // Change Address
+  const [address, setAddress] = useState(user.user.address);
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">{user.user.name}'s Profile</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <h1 className="text-3xl font-bold mb-8">Edit Profile</h1>
+
       <div className="grid grid-cols-2 gap-8">
         <div className="col-span-2 md:col-span-1">
           <h2 className="text-xl font-bold mb-4">Contact Information</h2>
           <ul className="list-disc list-inside">
+            <li>
+              <span className="font-semibold">Name:</span>{" "}
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="form-control"
+              />
+            </li>
             <li>
               <span className="font-semibold">Email:</span>{" "}
               <a
@@ -21,16 +39,21 @@ function RestaurantSettings() {
             </li>
             <li>
               <span className="font-semibold">Phone:</span>{" "}
-              <a
-                href={`tel:${user.user.phoneNumber}`}
-                className="text-blue-600 hover:underline"
-              >
-                {user.user.phoneNumber}
-              </a>
+              <input
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="form-control"
+              />
             </li>
             <li>
               <span className="font-semibold">Address:</span>{" "}
-              {user.user.address}
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="form-control"
+              />
             </li>
           </ul>
         </div>
