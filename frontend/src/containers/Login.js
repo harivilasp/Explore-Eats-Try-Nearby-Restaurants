@@ -13,30 +13,19 @@ const Login = () => {
     const [customerPassword, setCustomerPassword] = useState("");
     const [ownerEmail, setOwnerEmail] = useState("");
     const [ownerPassword, setOwnerPassword] = useState("");
-
     const navigate = useNavigate();
-
     const { restaurantAuthError, customerAuthError } = useSelector(
         (state) => state.auth
     );
-
-    useEffect(() => {
-        console.log({ restaurantAuthError, customerAuthError });
-    }, [restaurantAuthError, customerAuthError]);
-
     const dispatch = useDispatch();
-
     const handleCustomerSubmit = (event) => {
         event.preventDefault();
         dispatch(signInWithAPICustomer(customerUsername, customerPassword, navigate));
-        //setIsLoggedIn(true);
     };
 
     const handleOwnerSubmit = (event) => {
         event.preventDefault();
-        console.log("Logging in");
         dispatch(signInWithAPIRestaurant(ownerEmail, ownerPassword, navigate));
-        //setIsLoggedIn(true);
     };
 
     useEffect(() => {

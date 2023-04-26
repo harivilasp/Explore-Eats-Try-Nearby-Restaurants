@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 function CustomerProfile() {
-  const user = useSelector(state => state.auth.user); // assuming the customer object is stored in the Redux store
+  const user = useSelector(state => state.auth.user);
 
   return (
     <div className="container mx-auto px-4 py-8">

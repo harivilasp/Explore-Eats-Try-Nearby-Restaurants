@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/LoginRegister.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerCustomerWithAPI } from "../redux/slices/authSlice";
 const RegisterCustomer = () => {
   const [name, setName] = useState("");
@@ -9,11 +9,11 @@ const RegisterCustomer = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
-
   const navigateTo = useNavigate();
-
+  const { customerRegisteredError } = useSelector(
+    (state) => state.auth
+);
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(

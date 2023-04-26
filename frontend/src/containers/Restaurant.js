@@ -8,6 +8,7 @@ const Restaurant = () => {
         <img src="https://via.placeholder.com/150" alt="Restaurant" className="restaurant-image" />
         <h1 className="restaurant-name">Restaurant Name</h1>
         <button className="add-to-favorites-button">Add to favorites</button>
+        <button className="add-to-favorites-button">Call back</button>
       </div>
       <div className="restaurant-details-container">
         <p className="restaurant-address">Address</p>

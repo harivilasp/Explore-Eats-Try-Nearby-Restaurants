@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/LoginRegister.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerRestaurantWithAPI } from "../redux/slices/authSlice";
 const RegisterRestaurant = () => {
   const [name, setName] = useState("");
@@ -10,11 +10,11 @@ const RegisterRestaurant = () => {
   const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
   const [address, setAddress] = useState("");
-
   const dispatch = useDispatch();
-
   const navigateTo = useNavigate();
-
+  const { restaurantRegisteredError } = useSelector(
+    (state) => state.auth
+);
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(

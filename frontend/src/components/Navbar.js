@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ExploreEats from '../assets/ExploreEats_flat.png'
 import {logout} from "../redux/slices/authSlice";
@@ -18,11 +18,6 @@ const Navbar = () => {
   }
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(event.target);
-    // event.target.get("searchTerm");
-    // get the search term and send it to the backend
-    
-    // navigate to the search page
     window.location.href = `/search/${searchTerm}`;
   };
 
