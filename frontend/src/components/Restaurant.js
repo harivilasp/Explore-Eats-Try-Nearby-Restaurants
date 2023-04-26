@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/RestaurantDetails.css";
+import { useSelector } from "react-redux";
 
 function RestaurantComponent() {
   const [restaurant, setRestaurant] = useState({});
@@ -20,40 +21,65 @@ function RestaurantComponent() {
         // setLoading(false);
       });
   }, [place_id]);
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-  // return (
-  //   // <pre>{JSON.stringify(restaurant, null, 2)}</pre>
-  //   <div className="restaurant">
-  //     {/* <p>
-  //       <img src={restaurant.photo_reference}> </img>
-  //     </p> */}
-  //     <h1>{restaurant.name}</h1>
-  //     <p>{restaurant.rating}</p>
-  //     <p>{restaurant.formatted_phone_number}</p>
-  //     <p>{restaurant.website}</p>
-  //     <p>{restaurant.formatted_address}</p>
-  //   </div>
+  const user = useSelector((state) => state.auth.user);
+  const handleCallBack = async () => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${user.user.token}` },
+      };
+      console.log(restaurant.username);
+      const body = {
+        username: restaurant.username,
+      };
+      const res = await axios.post(
+        "http://localhost:5001/api/customers/callRestaurant",
+        body,
+        config
+      );
 
-  return (
-    <div className="restaurant-container">
-      <div className="restaurant-image-container">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="Restaurant"
-          className="restaurant-image"
-        />
-        <h1 className="restaurant-name">{restaurant.name}</h1>
-        <button className="add-to-favorites-button">Add to favorites</button>
-        <button className="add-to-favorites-button">Call back</button>
+      // Optionally, show a success message to the user
+    } catch (error) {
+      // Handle errors, e.g. show an error message to the user
+    }
+
+    // if (loading) {
+    //   return <div>Loading...</div>;
+    // }
+    // return (
+    //   // <pre>{JSON.stringify(restaurant, null, 2)}</pre>
+    //   <div className="restaurant">
+    //     {/* <p>
+    //       <img src={restaurant.photo_reference}> </img>
+    //     </p> */}
+    //     <h1>{restaurant.name}</h1>
+    //     <p>{restaurant.rating}</p>
+    //     <p>{restaurant.formatted_phone_number}</p>
+    //     <p>{restaurant.website}</p>
+    //     <p>{restaurant.formatted_address}</p>
+    //   </div>
+
+    return (
+      <div className="restaurant-container">
+        <div className="restaurant-image-container">
+          <img
+            src="https://via.placeholder.com/150"
+            alt="Restaurant"
+            className="restaurant-image"
+          />
+          <pre>{JSON.stringify(restaurant, null, 2)}</pre>
+          <h1 className="restaurant-name">{restaurant.name}</h1>
+          <button className="add-to-favorites-button">Add to favorites</button>
+          <button className="add-to-favorites-button" onClick={handleCallBack}>
+            Call back
+          </button>
+        </div>
+        <div className="restaurant-details-container">
+          <p className="restaurant-address">{restaurant.formatted_address}</p>
+          <p className="restaurant-rating">Rating: {restaurant.rating}</p>
+        </div>
       </div>
-      <div className="restaurant-details-container">
-        <p className="restaurant-address">{restaurant.formatted_address}</p>
-        <p className="restaurant-rating">Rating: {restaurant.rating}</p>
-      </div>
-    </div>
-  );
+    );
+  };
 }
 
 export default RestaurantComponent;

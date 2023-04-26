@@ -51,7 +51,6 @@ function RestaurantSettings() {
     <div className="container mx-auto px-4 py-8">
       {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
       <h1 className="text-3xl font-bold mb-8">Edit Profile</h1>
-
       <div className="grid grid-cols-2 gap-8">
         <div className="col-span-2 md:col-span-1">
           <h2 className="text-xl font-bold mb-4">Contact Information</h2>
