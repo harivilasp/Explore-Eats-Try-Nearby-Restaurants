@@ -33,11 +33,9 @@ exports.getPlaceDetails = (req, res) => {
     .then((response) => {
       console.log(response.data.result);
       data = response.data.result;
-      data.forEach((element) => {
-        element["photos"][0][
-          "photo_reference"
-        ] = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${element["photos"][0]["photo_reference"]}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-      });
+      data["photos"][0][
+        "photo_reference"
+      ] = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data["photos"][0]["photo_reference"]}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
       res.json(data);
     })
     .catch((error) => {
