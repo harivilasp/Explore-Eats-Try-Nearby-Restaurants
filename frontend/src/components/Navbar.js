@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ExploreEats from '../assets/ExploreEats_flat.png'
 import {logout} from "../redux/slices/authSlice";
 import { Link } from 'react-router-dom';
 
-const Navbar = ({isLoggedIn}) => {
+const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch()
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -18,18 +18,19 @@ const Navbar = ({isLoggedIn}) => {
   }
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(event.target);
-    // event.target.get("searchTerm");
-    // get the search term and send it to the backend
-    console.log(searchTerm);
-    // navigate to the search page
     window.location.href = `/search/${searchTerm}`;
   };
+
+
+  
+  const toggle = () => {
+    setShowDropdown(false)
+  }
 
   return (
     <nav className="sticky z-50 flex items-center justify-between w-full px-8 py-4 bg-white shadow-md">
       {/* Logo */}
-      <Link to="/">
+      <Link onClick={toggle} to="/">
         <img src = {ExploreEats} width="200" height="100" alt="logo"/>
       </Link>
 
@@ -56,16 +57,14 @@ const Navbar = ({isLoggedIn}) => {
 
       {/* Buttons and Dropdown */}
       <div className="flex items-center space-x-4">
-        {/* Your Maps button */}
-        <Link to="/maps" className="px-4 py-2 text-gray-600 hover:text-gray-800">
-          Map
-        </Link>
+        {user && user.role === "customer" && (
+      <>
 
-        {/* Your Saved Spaces button */}
-        <button className="px-4 py-2 text-gray-600 hover:text-gray-800">
+        <Link to="/favorites" className="px-4 py-2 text-gray-600 hover:text-gray-800">
           Your Favorites
-        </button>
-
+        </Link>
+        </>
+        )}
         {/* Dropdown */}
         <div className="relative">
           <button
@@ -76,28 +75,48 @@ const Navbar = ({isLoggedIn}) => {
           </button>
           {showDropdown && (
   <div className="absolute z-10 right-0 w-40 py-2 mt-2 bg-white border rounded-md shadow-lg">
-    {isLoggedIn ? (
+    {user && user.role === "customer" && (
       <>
-        <Link to="/"
+        <Link onClick={toggle} to="/"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Home
         </Link>
-        <Link to="/"
-          href="/profile"
+        <Link onClick={toggle} to="/customer-profile"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Profile
         </Link>
-        <Link to="/"
+        <Link onClick={toggle} to="/customer-settings"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
-          Site Preferences
+          Settings
         </Link>
-        <Link to="/"
+        <Link onClick={toggle} to="/contact"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
           Contact Us
+        </Link>
+        <Link
+          to="/"
+          onClick={handleLogout}
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Logout
+        </Link>
+      </>
+    )}
+    {user && user.role === "restaurant"  && (
+      <>
+        <Link onClick={toggle} to="/restaurant-profile"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Restaurant Overview
+        </Link>
+        <Link onClick={toggle} to="/restaurant-settings"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Settings
         </Link>
         <button
           onClick={handleLogout}
@@ -105,31 +124,50 @@ const Navbar = ({isLoggedIn}) => {
         >
           Logout
         </button>
-      </>
-    ) : (
-      <>
-        <Link to="/"
-          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-        >
-          Home
-        </Link>
-        <Link to="/login"
-          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-        >
-          Login
-        </Link>
-        <Link to="/admin-login"
-          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-        >
-          Admin Login
-        </Link>
-        <Link to="/"
-          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-        >
-          Contact Us
-        </Link>
+        
       </>
     )}
+    {user && user.role === "admin"  && (
+      <>
+      <Link onClick={toggle} to="/dashboard"
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Dashboard
+      </Link>
+      <Link
+        onClick={handleLogout}
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Logout
+      </Link>
+      
+    </>
+    )}
+    {user === null && (
+  <>
+    <Link onClick={toggle} to="/" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+      Home
+    </Link>
+    <Link onClick={toggle}
+      to="/login"
+      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+    >
+      Login
+    </Link>
+    <Link onClick={toggle}
+      to="/admin-login"
+      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+    >
+      Admin Login
+    </Link>
+    <Link onClick={toggle}
+      to="/"
+      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+    >
+      Contact Us
+    </Link>
+  </>
+)}
   </div>
 )}
         </div>

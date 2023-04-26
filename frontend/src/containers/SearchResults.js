@@ -7,7 +7,6 @@ function SearchResults() {
   const [result, setResult] = useState({});
   // const [loading, setLoading] = useState(true);
   const { searchTerm } = useParams();
-  console.log(searchTerm);
   useEffect(() => {
     console.log("inside useEffect");
     axios

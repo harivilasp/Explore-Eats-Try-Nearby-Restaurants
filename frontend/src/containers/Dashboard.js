@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Maps() {
+function Dashboard() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function Maps() {
   )
 }
 
-export default Maps
+export default Dashboard

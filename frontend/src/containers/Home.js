@@ -25,7 +25,6 @@ function Home() {
     fetchData();
   }, []);
 
-  console.log("restaurants", restaurants);
 
   return (
     <div className="flex">
@@ -43,6 +42,3 @@ function Home() {
 
 export default Home;
 
-{
-  /* <Card key={restaurant.place_id} restaurant={restaurant} /> */
-}
