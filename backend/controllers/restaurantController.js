@@ -4,7 +4,10 @@ const asyncHandler = require("express-async-handler");
 const Restaruant = require("../models/restaurantModel");
 const Admin = require("../models/adminModel");
 const PendingRequest = require("../models/pendingRequestModel");
-const PendingCall = require("../models/pendingCallsModel")
+const PendingCall = require("../models/pendingCallsModel");
+const { getFindPlaceFromText } = require("../services/api-requests");
+const { default: axios } = require("axios");
+
 //  @desc Register new users
 //  @route Post /api/users
 //  @access Public
@@ -28,7 +31,20 @@ const registerRestaurant = asyncHandler(async (req, res) => {
 
   const salt = await bcrypt.genSalt(10); // to hash the pass
   const hashPassword = await bcrypt.hash(password, salt);
+  let place_id = "123456789";
+  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${name}&inputtype=textquery&key=AIzaSyC7dYgeoHfb09SthCLsMUT57ZpNWsksrno`;
 
+  await axios.get(url).then((response) => {
+    // console.log(response.data);
+    data = response.data;
+    // data["candidates"][0][
+    //   "place_id"
+    // ] = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${name}&inputtype=textquerykey=${process.env.GOOGLE_MAPS_API_KEY}`;
+    console.log(data);
+    place_id = data["candidates"][0]["place_id"];
+  });
+
+  console.log("outside axios", place_id);
   // Create user
   const restaurant = await Restaruant.create({
     name,
@@ -39,6 +55,7 @@ const registerRestaurant = asyncHandler(async (req, res) => {
     role: "restaurant", // default role
     status: false, // default status
     phoneNumber,
+    place_id,
   });
 
   if (restaurant) {
@@ -119,36 +136,35 @@ const loginRestaruant = asyncHandler(async (req, res) => {
 //  @desc Get user data
 //  @route Get /api/users/me
 //  @access Public
-const getPendingCalls = asyncHandler(async (req,res) => {
+const getPendingCalls = asyncHandler(async (req, res) => {
   // Since we are getting the req.admin,  userid from our authMiddleware,we can use it here since it's redirecting us here.
-  const restaruantIDs = await PendingCall.collection.distinct('restaurantID')// We can all fetch others fields 
-  const customerIDs = await PendingCall.collection.distinct('customerID')// We can all fetch others fields 
+  const restaruantIDs = await PendingCall.collection.distinct("restaurantID"); // We can all fetch others fields
+  const customerIDs = await PendingCall.collection.distinct("customerID"); // We can all fetch others fields
 
   res.status(200).json({
-      restaruantIDs,
-      customerIDs,
-  })
+    restaruantIDs,
+    customerIDs,
+  });
   // res.json({message: 'Admin Data' })
-})
+});
 
-
-
-const deletePendingCalls = asyncHandler(async (req,res) => {
+const deletePendingCalls = asyncHandler(async (req, res) => {
   // Since we are getting the req.admin,  userid from our authMiddleware,we can use it here since it's redirecting us here.
-  
+
   // we need to find the restaurant information from the id that  we get from the req and then update the restaurant model.
   const pendingCall = await PendingCall.findOne({ customerID: req.params.id }); // Since we are passing the id in the url, hence req.params.id
-  console.log(req.params.id)
-  console.log(pendingCall)
+  console.log(req.params.id);
+  console.log(pendingCall);
 
-
-  if(pendingCall) {
+  if (pendingCall) {
     // const updatedPendingCall =  await PendingCall.findByIdAndDelete(pendingCall._id)  // Deleting the restaurant from the pending request model
-    const updatedPendingCall =  await PendingCall.findOneAndDelete({ customerID: req.params.id }) // Deleting the restaurant from the pending request model
-      res.status(200).json(updatedPendingCall)
+    const updatedPendingCall = await PendingCall.findOneAndDelete({
+      customerID: req.params.id,
+    }); // Deleting the restaurant from the pending request model
+    res.status(200).json(updatedPendingCall);
   } else {
-      res.status(404)
-      throw new Error('PendingCall not found')
+    res.status(404);
+    throw new Error("PendingCall not found");
   }
 
   // res.status(200).json({
@@ -156,7 +172,7 @@ const deletePendingCalls = asyncHandler(async (req,res) => {
   //     adminIDs,
   // })
   // res.json({message: 'Admin Data' })
-})
+});
 
 const getMe = asyncHandler(async (req, res) => {
   // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
@@ -170,34 +186,27 @@ const getMe = asyncHandler(async (req, res) => {
   // res.json({message: 'User Data' })
 });
 
-
-
-const updateMe = asyncHandler(async (req,res) => {
+const updateMe = asyncHandler(async (req, res) => {
   // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
-  const {name, phoneNumber, address} = req.body // getting the information from the frontend 
+  const { name, phoneNumber, address } = req.body; // getting the information from the frontend
 
-  
-
-
-  // const {_id, , email} = await Customer.findById(req.customer.id) // We can all fetch others fields 
+  // const {_id, , email} = await Customer.findById(req.customer.id) // We can all fetch others fields
 
   const updatedRestaurant = await Restaruant.findByIdAndUpdate(
-      req.restaurant.id,
-      { name, phoneNumber, address},
-      { new: true }
-    );
+    req.restaurant.id,
+    { name, phoneNumber, address },
+    { new: true }
+  );
 
-
-  // update the fields 
+  // update the fields
   res.status(200).json({
-      id: updatedRestaurant._id,
-      name: updatedRestaurant.name,   // if we want to show name:name, can just write name
-      email: updatedRestaurant.email,
-      phoneNumber: updatedRestaurant.phoneNumber
-  })
+    id: updatedRestaurant._id,
+    name: updatedRestaurant.name, // if we want to show name:name, can just write name
+    email: updatedRestaurant.email,
+    phoneNumber: updatedRestaurant.phoneNumber,
+  });
   // res.json({message: 'User Data' })
-})
-
+});
 
 // To generate a JWT token
 const generateToken = (id) => {
@@ -213,5 +222,5 @@ module.exports = {
   getMe,
   updateMe,
   getPendingCalls,
-  deletePendingCalls
+  deletePendingCalls,
 };
