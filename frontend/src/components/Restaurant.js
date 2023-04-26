@@ -27,16 +27,36 @@ function RestaurantComponent() {
       const config = {
         headers: { Authorization: `Bearer ${user.user.token}` },
       };
-      console.log(restaurant.username);
+      console.log(restaurant.place_id);
       const body = {
-        username: restaurant.username,
+        place_id: restaurant.place_id,
       };
       const res = await axios.post(
         "http://localhost:5001/api/customers/callRestaurant",
         body,
         config
       );
-
+      console.log(res);
+      // Optionally, show a success message to the user
+    } catch (error) {
+      // Handle errors, e.g. show an error message to the user
+    }
+  };
+  const handleAddFavourite = async () => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${user.user.token}` },
+      };
+      console.log(restaurant.place_id);
+      const body = {
+        place_id: restaurant.place_id,
+      };
+      const res = await axios.post(
+        "http://localhost:5001/api/favorites/",
+        body,
+        config
+      );
+      console.log(res);
       // Optionally, show a success message to the user
     } catch (error) {
       // Handle errors, e.g. show an error message to the user
@@ -68,7 +88,12 @@ function RestaurantComponent() {
         />
         {/* <pre>{JSON.stringify(restaurant, null, 2)}</pre> */}
         <h1 className="restaurant-name">{restaurant.name}</h1>
-        <button className="add-to-favorites-button">Add to favorites</button>
+        <button
+          className="add-to-favorites-button"
+          onClick={handleAddFavourite}
+        >
+          Add to favorites
+        </button>
         <button className="add-to-favorites-button" onClick={handleCallBack}>
           Call back
         </button>
