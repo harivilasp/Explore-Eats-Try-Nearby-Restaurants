@@ -130,6 +130,34 @@ const getMe = asyncHandler(async (req, res) => {
   // res.json({message: 'User Data' })
 });
 
+
+const updateMe = asyncHandler(async (req,res) => {
+  // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
+  const {name, phoneNumber, address} = req.body // getting the information from the frontend 
+
+  
+
+
+  // const {_id, , email} = await Customer.findById(req.customer.id) // We can all fetch others fields 
+
+  const updatedRestaurant = await Restaruant.findByIdAndUpdate(
+      req.restaurant.id,
+      { name, phoneNumber, address},
+      { new: true }
+    );
+
+
+  // update the fields 
+  res.status(200).json({
+      id: updatedRestaurant._id,
+      name: updatedRestaurant.name,   // if we want to show name:name, can just write name
+      email: updatedRestaurant.email,
+      phoneNumber: updatedRestaurant.phoneNumber
+  })
+  // res.json({message: 'User Data' })
+})
+
+
 // To generate a JWT token
 const generateToken = (id) => {
   // Our token will be payload_id(userID) + secret + expireDuration
@@ -142,4 +170,5 @@ module.exports = {
   registerRestaurant,
   loginRestaruant,
   getMe,
+  updateMe
 };

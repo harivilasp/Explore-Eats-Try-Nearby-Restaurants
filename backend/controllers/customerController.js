@@ -100,6 +100,33 @@ const getMe = asyncHandler(async (req,res) => {
 })
 
 
+const updateMe = asyncHandler(async (req,res) => {
+    // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
+    const {name, phoneNumber} = req.body // getting the information from the frontend 
+
+    
+
+
+    // const {_id, , email} = await Customer.findById(req.customer.id) // We can all fetch others fields 
+
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+        req.customer.id,
+        { name, phoneNumber},
+        { new: true }
+      );
+
+
+    // update the fields 
+    res.status(200).json({
+        id: updatedCustomer._id,
+        name: updatedCustomer.name,   // if we want to show name:name, can just write name
+        email: updatedCustomer.email,
+        phoneNumber: updatedCustomer.phoneNumber
+    })
+    // res.json({message: 'User Data' })
+})
+
+
 // To generate a JWT token 
 const generateToken = (id) => { // Our token will be payload_id(userID) + secret + expireDuration
     return jwt.sign({id}, process.env.JWT_SECRET, {
@@ -109,5 +136,5 @@ const generateToken = (id) => { // Our token will be payload_id(userID) + secret
 
 
 module.exports = {
-    registerCustomer, loginCustomer, getMe
+    registerCustomer, loginCustomer, getMe, updateMe
 }
