@@ -15,6 +15,7 @@ function SearchResults() {
       .then((res) => res.data)
       .then((data) => {
         console.log(data);
+        // console.log("testing print restult" + data[0].place_id);
         setResult(data);
         // setLoading(false);
       });
@@ -24,12 +25,14 @@ function SearchResults() {
   // }
   return (
     <div className="flex">
-      <pre>{JSON.stringify(result, null, 2)}</pre>
-      {/* display search results
-      console.log(result.type);
-      {result.map((restaurant) => (
+      {/* {console.log("testing print restult" + result[0].place_id)} */}
+      <pre>{JSON.stringify(result[0], null, 2)}</pre>
+      {/* display search results */}
+      {/* console.log(result.type); */}
+      {/* {result.map((restaurant) => (
         <Card restaurant={restaurant} />
       ))} */}
+      {/* <Card restaurant={result[0]} /> */}
     </div>
   );
 }

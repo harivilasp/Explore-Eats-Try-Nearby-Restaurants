@@ -76,7 +76,8 @@ exports.getPlaceReviews = (req, res, next) => {
 // get findplacefromtext
 exports.getFindPlaceFromText = (req, res) => {
   const placeName = req.params.placeName;
-  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&fields=name%2Crating%2Cuser_ratings_total%2Cformatted_address%2Cphotos&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&fields=place_id%2Cname%2Crating%2Cuser_ratings_total%2Cformatted_address%2Cphotos&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  // const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   console.log(url);
   axios
     .get(url)
