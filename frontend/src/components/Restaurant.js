@@ -41,45 +41,44 @@ function RestaurantComponent() {
     } catch (error) {
       // Handle errors, e.g. show an error message to the user
     }
-
-    // if (loading) {
-    //   return <div>Loading...</div>;
-    // }
-    // return (
-    //   // <pre>{JSON.stringify(restaurant, null, 2)}</pre>
-    //   <div className="restaurant">
-    //     {/* <p>
-    //       <img src={restaurant.photo_reference}> </img>
-    //     </p> */}
-    //     <h1>{restaurant.name}</h1>
-    //     <p>{restaurant.rating}</p>
-    //     <p>{restaurant.formatted_phone_number}</p>
-    //     <p>{restaurant.website}</p>
-    //     <p>{restaurant.formatted_address}</p>
-    //   </div>
-
-    return (
-      <div className="restaurant-container">
-        <div className="restaurant-image-container">
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Restaurant"
-            className="restaurant-image"
-          />
-          <pre>{JSON.stringify(restaurant, null, 2)}</pre>
-          <h1 className="restaurant-name">{restaurant.name}</h1>
-          <button className="add-to-favorites-button">Add to favorites</button>
-          <button className="add-to-favorites-button" onClick={handleCallBack}>
-            Call back
-          </button>
-        </div>
-        <div className="restaurant-details-container">
-          <p className="restaurant-address">{restaurant.formatted_address}</p>
-          <p className="restaurant-rating">Rating: {restaurant.rating}</p>
-        </div>
-      </div>
-    );
   };
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
+  // return (
+  //   // <pre>{JSON.stringify(restaurant, null, 2)}</pre>
+  //   <div className="restaurant">
+  //     {/* <p>
+  //       <img src={restaurant.photo_reference}> </img>
+  //     </p> */}
+  //     <h1>{restaurant.name}</h1>
+  //     <p>{restaurant.rating}</p>
+  //     <p>{restaurant.formatted_phone_number}</p>
+  //     <p>{restaurant.website}</p>
+  //     <p>{restaurant.formatted_address}</p>
+  //   </div>
+
+  return (
+    <div className="restaurant-container">
+      <div className="restaurant-image-container">
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Restaurant"
+          className="restaurant-image"
+        />
+        {/* <pre>{JSON.stringify(restaurant, null, 2)}</pre> */}
+        <h1 className="restaurant-name">{restaurant.name}</h1>
+        <button className="add-to-favorites-button">Add to favorites</button>
+        <button className="add-to-favorites-button" onClick={handleCallBack}>
+          Call back
+        </button>
+      </div>
+      <div className="restaurant-details-container">
+        <p className="restaurant-address">{restaurant.formatted_address}</p>
+        <p className="restaurant-rating">Rating: {restaurant.rating}</p>
+      </div>
+    </div>
+  );
 }
 
 export default RestaurantComponent;
