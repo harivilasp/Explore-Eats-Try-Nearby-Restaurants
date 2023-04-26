@@ -12,6 +12,7 @@ import SearchResults from "./containers/SearchResults";
 import Favorites from "./containers/Favorites";
 import Dashboard from "./containers/Dashboard";
 import CustomerProfile from "./containers/CustomerProfile";
+import CustomerGenericProfile from "./containers/CustomerGenericProfile";
 import RestaurantProfile from "./containers/RestaurantProfile";
 import CustomerSettings from "./containers/CustomerSettings";
 import Contact from "./containers/Contact";
@@ -32,6 +33,10 @@ function App() {
           <Route
             path="/restaurant/:place_id"
             element={<RestaurantComponent />}
+          />
+          <Route
+            path="/customer-profile/:username"
+            element={<CustomerGenericProfile />}
           />
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/admin-login" element={<AdminLogin />} />
