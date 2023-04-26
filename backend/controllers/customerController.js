@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const Customer = require('../models/customerModel')
+const PendingCall = require('../models/pendingCallsModel')
+const Restaurant = require('../models/restaurantModel')
 
 //  @desc Register new users 
 //  @route Post /api/users
@@ -99,6 +101,68 @@ const getMe = asyncHandler(async (req,res) => {
     // res.json({message: 'User Data' })
 })
 
+const pendingCall = asyncHandler(async (req,res) => {
+    // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
+    const {_id, name, email} = await Customer.findById(req.customer.id) // We can all fetch others fields 
+    const {username} = req.body
+    const restaurant = await Restaurant.findOne({username}) // We can all fetch others fields 
+
+    console.log(restaurant)
+    if (restaurant) {
+        const pendingcallRequest = await PendingCall.create({
+            // restaurantName: restaurant.name,
+            restaurantID: restaurant._id,
+            customerID: _id,
+          });
+
+        if (pendingcallRequest) {
+            res.status(200).json({
+                restaurantID: restaurant._id,
+                customerID: _id,
+                name,
+                email
+            })
+        } else {
+            res.status(400)
+            throw new Error('Invalid restaurant id')
+        }
+    } else {
+        res.status(400)
+        throw new Error('Invalid restaurant id')
+    }
+    
+    
+   
+    // res.json({message: 'User Data' })
+})
+
+
+const updateMe = asyncHandler(async (req,res) => {
+    // Since we are getting the req.user,  userid from our authMiddleware,we can use it here since it's redirecting us here.
+    const {name, phoneNumber} = req.body // getting the information from the frontend 
+
+    
+
+
+    // const {_id, , email} = await Customer.findById(req.customer.id) // We can all fetch others fields 
+
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+        req.customer.id,
+        { name, phoneNumber},
+        { new: true }
+      );
+
+
+    // update the fields 
+    res.status(200).json({
+        id: updatedCustomer._id,
+        name: updatedCustomer.name,   // if we want to show name:name, can just write name
+        email: updatedCustomer.email,
+        phoneNumber: updatedCustomer.phoneNumber
+    })
+    // res.json({message: 'User Data' })
+})
+
 
 // To generate a JWT token 
 const generateToken = (id) => { // Our token will be payload_id(userID) + secret + expireDuration
@@ -109,5 +173,5 @@ const generateToken = (id) => { // Our token will be payload_id(userID) + secret
 
 
 module.exports = {
-    registerCustomer, loginCustomer, getMe
+    registerCustomer, loginCustomer, getMe, updateMe, pendingCall
 }
