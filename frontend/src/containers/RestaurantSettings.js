@@ -42,6 +42,7 @@ function RestaurantSettings() {
         },
       };
       dispatch(login(payload));
+      window.href = "/restaurant/restaurant-profile";
       // Optionally, show a success message to the user
     } catch (error) {
       // Handle errors, e.g. show an error message to the user
