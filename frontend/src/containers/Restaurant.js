@@ -37,6 +37,7 @@ function RestaurantComponent() {
         config
       );
       console.log(res);
+      alert("call back successful");
       // Optionally, show a success message to the user
     } catch (error) {
       // Handle errors, e.g. show an error message to the user
@@ -57,6 +58,7 @@ function RestaurantComponent() {
         config
       );
       console.log(res);
+      alert("Added to favorites");
       // Optionally, show a success message to the user
     } catch (error) {
       // Handle errors, e.g. show an error message to the user
