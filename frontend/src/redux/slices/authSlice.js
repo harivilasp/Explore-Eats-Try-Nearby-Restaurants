@@ -13,7 +13,8 @@ const initialState = {
     custAlreadyExists: false,
     restAlreadyExists: false,
     updateCustError: false,
-    pendingRestaurants: []
+    pendingRestaurants: [],
+    pendingCalls: []
 };
 
 export const authSlice = createSlice({
@@ -31,6 +32,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         logout: (state) => {
             state.user = null;
@@ -43,6 +45,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         customerError: (state) => {
             state.user = null;
@@ -55,6 +58,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         restaurantError: (state) => {
             state.user = null;
@@ -67,6 +71,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         adminError: (state) => {
             state.user = null;
@@ -79,6 +84,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         restUnapprovedError: (state) => {
             state.user = null;
@@ -91,6 +97,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         customerAlreadyExists: (state) => {
             state.user = null;
@@ -103,6 +110,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         restaurantAlreadyExists: (state) => {
             state.user = null;
@@ -115,6 +123,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = true;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         customerUpdateError: (state) => {
             state.user = null;
@@ -127,6 +136,7 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = true;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         customerUpdateProfile: (state, action) => {
             state.user.user.name = action.payload.name;
@@ -144,11 +154,16 @@ export const authSlice = createSlice({
             state.restAlreadyExists = false;
             state.updateCustError = false;
             state.pendingRestaurants = []
+            state.pendingCalls = []
         },
         setPendingRestaurant: (state, action) => {
-            console.log("some")
+            
             state.pendingRestaurants = action.payload
-        }
+        },
+        setPendingCalls: (state, action) => {
+            
+            state.pendingCalls = action.payload
+        },
     },
 });
 
@@ -165,7 +180,8 @@ export const {
     customerAlreadyExists,
     customerUpdateError,
     customerUpdateProfile,
-    setPendingRestaurant
+    setPendingRestaurant,
+    setPendingCalls
 } = authSlice.actions;
 export default authSlice.reducer;
 
@@ -295,6 +311,24 @@ export const approveRestaurant = (id) => {
             console.log(data)
             dispatch(getAdminPendingRequests)
         } catch(e){
+            console.log(e)
+        }
+    }
+}
+export const getRestaurantPendingCalls = (token) => {
+    return async (dispatch) => {
+     
+        try{
+            const response = await axios.get(`${BASE_URL}/api/restaurants/pendingCalls`, {
+                headers: {
+                    Authorization: "Bearer " + token, // replace `token` with your actual token
+                    "Content-Type": "application/json",
+                },
+            })
+            const data = response.data
+            console.log(data)
+            dispatch(setPendingCalls(data["customerInfo"]))
+        } catch(e) {
             console.log(e)
         }
     }
