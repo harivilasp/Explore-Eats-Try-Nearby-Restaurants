@@ -108,10 +108,15 @@ const Navbar = () => {
     )}
     {user && user.role === "restaurant"  && (
       <>
+      <Link onClick={toggle} to="/restaurant-home"
+          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+        >
+          Overview
+        </Link>
         <Link onClick={toggle} to="/restaurant-profile"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
         >
-          Restaurant Overview
+          Restaurant Profile
         </Link>
         <Link onClick={toggle} to="/restaurant-settings"
           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"

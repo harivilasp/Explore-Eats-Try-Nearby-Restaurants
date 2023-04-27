@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/Dashboard.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { approveRestaurant, getAdminPendingRequests } from '../redux/slices/authSlice';
 
 function Dashboard() {
-  const restaurants = [
-    { id: 1, name: 'Restaurant A' },
-    { id: 2, name: 'Restaurant B' },
-    { id: 3, name: 'Restaurant C' },
-  ];
+ 
+  const dispatch = useDispatch()
+  const {user} = useSelector(state => state.auth)
+  const restaurants = useSelector(state => state.auth.pendingRestaurants)
+  const fetchRestaurants = async() => {
+    if(user && user.user)
+    dispatch(getAdminPendingRequests(user.user.token))
+  }
+  useEffect(() => {
+    
+    fetchRestaurants()
+  },[]);
+  useEffect(() => {
+console.log({restaurants})
+  })
 
   const handleApprove = (id) => {
-    // handle approve logic for restaurant with id
-  };
-
-  const handleReject = (id) => {
-    // handle reject logic for restaurant with id
+    dispatch(approveRestaurant(id))
+    fetchRestaurants()
   };
 
   return (
@@ -27,13 +36,12 @@ function Dashboard() {
           </tr>
         </thead>
         <tbody>
-          {restaurants.map((restaurant) => (
+          {restaurants && restaurants.map((restaurant) => (
             <tr key={restaurant.id}>
               <td>{restaurant.id}</td>
               <td>{restaurant.name}</td>
               <td>
                 <button onClick={() => handleApprove(restaurant.id)}>Approve</button>
-                <button onClick={() => handleReject(restaurant.id)}>Reject</button>
               </td>
             </tr>
           ))}
