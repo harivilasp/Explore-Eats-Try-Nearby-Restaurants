@@ -12,13 +12,13 @@ router.get('/me',protectAdmin, getMe) // get a user data ==> registration // Add
 
 // Show pending requests for restaurant approval
 
-router.get('/pending', protectAdmin, getPendingResuests)
+router.get('/pending', getPendingResuests)
 
 
 // Approve restaurant   
 // Admin approves the restaruant so that it can be shown in the restaurant list
 
-router.put('/approve/:id', protectAdmin, approveRestaurant)
+router.put('/approve/:id', approveRestaurant)
 
 // Disapprove restaurant
 // router.put('/disapprove/:id', protectAdmin, disapproveRestaurant)   // Not needed for now

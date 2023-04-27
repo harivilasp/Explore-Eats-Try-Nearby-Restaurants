@@ -104,15 +104,19 @@ const getMe = asyncHandler(async (req,res) => {
 //  @route Get /api/users/me
 //  @access Public
 const getPendingResuests = asyncHandler(async (req,res) => {
-    // Since we are getting the req.admin,  userid from our authMiddleware,we can use it here since it's redirecting us here.
-    const restaruantIDs = await PendingRequest.collection.distinct('restaurantID')// We can all fetch others fields 
-    const adminIDs = await PendingRequest.collection.distinct('adminID')// We can all fetch others fields 
+    const restaurantIDs = await PendingRequest.collection.distinct("restaurantID");
+  const adminIDs = await PendingRequest.collection.distinct("adminID");
 
-    res.status(200).json({
-        restaruantIDs,
-        adminIDs,
-    })
-    // res.json({message: 'Admin Data' })
+  const restaurants = await Restaurant.find({ _id: { $in: restaurantIDs } });
+
+  const restaurantNames = restaurants.map((restaurant) => {
+    return { id: restaurant._id, name: restaurant.name };
+  });
+
+  res.status(200).json({
+    restaurantNames,
+    adminIDs,
+  });
 })
 
 //  @desc Get pending requests data
