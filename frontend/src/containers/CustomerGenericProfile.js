@@ -19,9 +19,8 @@ function CustomerGenericProfile() {
   }, [username]);
   return (
     <div className="container mx-auto px-4 py-8">
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      {/* <h1 className="text-3xl font-bold mb-8">
-        {user.customer.name}'s Profile
+      <h1 className="text-3xl font-bold mb-8">
+        {user.customer?.name}'s Profile
       </h1>
       <div className="grid grid-cols-2 gap-8">
         <div className="col-span-2 md:col-span-1">
@@ -30,19 +29,19 @@ function CustomerGenericProfile() {
             <li>
               <span className="font-semibold">Email:</span>{" "}
               <a
-                href={`mailto:${user.customer.email}`}
+                href={`mailto:${user.customer?.email}`}
                 className="text-blue-600 hover:underline"
               >
-                {user.customer.email}
+                {user.customer?.email}
               </a>
             </li>
             <li>
               <span className="font-semibold">Phone:</span>{" "}
               <a
-                href={`tel:${user.customer.phoneNumber}`}
+                href={`tel:${user.customer?.phoneNumber}`}
                 className="text-blue-600 hover:underline"
               >
-                {user.customer.phoneNumber}
+                {user.customer?.phoneNumber}
               </a>
             </li>
           </ul>
@@ -52,11 +51,11 @@ function CustomerGenericProfile() {
           <ul className="list-disc list-inside">
             <li>
               <span className="font-semibold">Username:</span>{" "}
-              {user.customer.username}
+              {user.customer?.username}
             </li>
           </ul>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

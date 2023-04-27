@@ -46,13 +46,42 @@ const addCustomerFavorites = asyncHandler(async (req, res) => {
     throw new Error("Please include the place_id field"); // This now shows on postman in the form of JSOn , rather than sending a html error file in default
   }
 
-  const favorite = await Favorite.create({
-    place_id: req.body.place_id,
-    customer: req.customer.id,
-    // put fields here and store them
+  const place_id = req.body.place_id;
+  const favouriteExists = await Favorite.findOne({
+    place_id,
   });
-  // console.log(req.body)
-  res.status(200).json(favorite);
+  if (favouriteExists) {
+    // get the user
+    const customer = await Customer.findById(req.customer.id);
+
+    // check for user
+    if (!customer) {
+      res.status(401); // not authorised
+      throw new Error("User not found");
+    }
+    console.log(favouriteExists.customer.toString());
+    console.log(customer.id);
+    // Check that the logged in user is the goal user
+    if (favouriteExists.customer.toString() !== customer.id) {
+      // favorite.user is of type id and in object form so we convert it to string type
+      res.status(401); // not authorized
+      throw new Error("User not authorized");
+    }
+
+    await Favorite.findOneAndDelete({ place_id });
+
+    res.status(200).json({
+      message: `Removed the favorite`,
+    });
+  } else {
+    const favorite = await Favorite.create({
+      place_id: req.body.place_id,
+      customer: req.customer.id,
+      // put fields here and store them
+    });
+    // console.log(req.body)
+    res.status(200).json(favorite);
+  }
 });
 
 //  @desc Update menu
