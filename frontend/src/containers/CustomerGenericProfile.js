@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function CustomerGenericProfile() {
   const { username } = useParams();
@@ -19,6 +20,7 @@ function CustomerGenericProfile() {
   }, [username]);
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
       <h1 className="text-3xl font-bold mb-8">
         {user.customer?.name}'s Profile
       </h1>
@@ -56,6 +58,16 @@ function CustomerGenericProfile() {
           </ul>
         </div>
       </div>
+      <p>
+        <h2 className="text-xl font-bold mb-4">Favourites</h2>
+        {user.favorites?.map((favorite) => (
+          <div key={favorite.place_id}>
+            <Link to={`/restaurant/${favorite.place_id}`}>
+              {favorite.place_id}
+            </Link>
+          </div>
+        ))}
+      </p>
     </div>
   );
 }
