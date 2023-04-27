@@ -14,13 +14,14 @@ const Login = () => {
     const [ownerEmail, setOwnerEmail] = useState("");
     const [ownerPassword, setOwnerPassword] = useState("");
     const navigate = useNavigate();
-    const { restaurantAuthError, customerAuthError } = useSelector(
-        (state) => state.auth
-    );
+    const { restaurantAuthError, customerAuthError, restaurantUnapprovedError } =
+        useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const handleCustomerSubmit = (event) => {
         event.preventDefault();
-        dispatch(signInWithAPICustomer(customerUsername, customerPassword, navigate));
+        dispatch(
+            signInWithAPICustomer(customerUsername, customerPassword, navigate)
+        );
     };
 
     const handleOwnerSubmit = (event) => {
@@ -98,6 +99,11 @@ const Login = () => {
                                 <p style={{ color: "red" }}>* Invalid Username or Password</p>
                             )}
 
+                            {restaurantUnapprovedError && (
+                                <p style={{ color: "red" }}>
+                                    * Your restaurant isn't approved yet!
+                                </p>
+                            )}
                             <button type="submit" className="submit-button">
                                 Submit
                             </button>

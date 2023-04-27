@@ -9,6 +9,10 @@ const initialState = {
     customerAuthError: false,
     restaurantAuthError: false,
     adminAuthError: false,
+    restaurantUnapprovedError: false,
+    custAlreadyExists: false,
+    restAlreadyExists: false,
+    updateCustError: false,
 };
 
 export const authSlice = createSlice({
@@ -21,6 +25,10 @@ export const authSlice = createSlice({
             state.customerAuthError = false;
             state.restaurantAuthError = false;
             state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
         },
         logout: (state) => {
             state.user = null;
@@ -28,6 +36,10 @@ export const authSlice = createSlice({
             state.customerAuthError = false;
             state.restaurantAuthError = false;
             state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
         },
         customerError: (state) => {
             state.user = null;
@@ -35,6 +47,10 @@ export const authSlice = createSlice({
             state.customerAuthError = true;
             state.restaurantAuthError = false;
             state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
         },
         restaurantError: (state) => {
             state.user = null;
@@ -42,6 +58,10 @@ export const authSlice = createSlice({
             state.customerAuthError = false;
             state.restaurantAuthError = true;
             state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
         },
         adminError: (state) => {
             state.user = null;
@@ -49,6 +69,58 @@ export const authSlice = createSlice({
             state.customerAuthError = false;
             state.restaurantAuthError = false;
             state.adminAuthError = true;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
+        },
+        restUnapprovedError: (state) => {
+            state.user = null;
+            state.role = null;
+            state.customerAuthError = false;
+            state.restaurantAuthError = false;
+            state.adminAuthError = false;
+            state.restaurantUnapprovedError = true;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
+        },
+        customerAlreadyExists: (state) => {
+            state.user = null;
+            state.role = null;
+            state.customerAuthError = false;
+            state.restaurantAuthError = false;
+            state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = true;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
+        },
+        restaurantAlreadyExists: (state) => {
+            state.user = null;
+            state.role = null;
+            state.customerAuthError = false;
+            state.restaurantAuthError = false;
+            state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = true;
+            state.updateCustError = false;
+        },
+        customerUpdateError: (state) => {
+            state.user = null;
+            state.role = null;
+            state.customerAuthError = false;
+            state.restaurantAuthError = false;
+            state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = true;
+        },
+        customerUpdateProfile: (state, action) => {
+            state.user.user.name = action.payload.name;
+            state.user.user.phoneNumber = action.payload.phoneNumber;
         },
         reset: (state) => {
             state.user = null;
@@ -56,6 +128,10 @@ export const authSlice = createSlice({
             state.customerAuthError = false;
             state.restaurantAuthError = false;
             state.adminAuthError = false;
+            state.restaurantUnapprovedError = false;
+            state.custAlreadyExists = false;
+            state.restAlreadyExists = false;
+            state.updateCustError = false;
         },
     },
 });
@@ -68,6 +144,11 @@ export const {
     reset,
     navigateTo,
     adminError,
+    restUnapprovedError,
+    restaurantAlreadyExists,
+    customerAlreadyExists,
+    customerUpdateError,
+    customerUpdateProfile,
 } = authSlice.actions;
 export default authSlice.reducer;
 
@@ -88,8 +169,9 @@ export const signInWithAPICustomer = (username, password, navigateTo) => {
 };
 export const signInWithAPIRestaurant = (username, password, navigateTo) => {
     return async (dispatch) => {
+        let response;
         try {
-            const response = await axios.post(`${BASE_URL}/api/restaurants/login`, {
+            response = await axios.post(`${BASE_URL}/api/restaurants/login`, {
                 username,
                 password,
             });
@@ -97,39 +179,81 @@ export const signInWithAPIRestaurant = (username, password, navigateTo) => {
             dispatch(login({ user: userData, role: "restaurant" }));
             navigateTo("/");
         } catch (e) {
-            dispatch(restaurantError());
+            const error = e.response.data;
+            if (error.errorType === "INVALID_CREDS") dispatch(restaurantError());
+            else if (error.errorType === "RESTAURANT_UNAPPROVED")
+                dispatch(restUnapprovedError());
         }
     };
 };
 export const signInWithAPIAdmin = (username, password, navigateTo) => {
     return async (dispatch) => {
         try {
-        const response = await axios.post(`${BASE_URL}/api/admins/login`, {
-            username,
-            password,
-        });
-        const userData = response.data;
-        dispatch(login({ user: userData, role: "admin" }));
-        navigateTo("/");
-    } catch(e) {
-        dispatch(adminError());
-    }
+            const response = await axios.post(`${BASE_URL}/api/admins/login`, {
+                username,
+                password,
+            });
+            const userData = response.data;
+            dispatch(login({ user: userData, role: "admin" }));
+            navigateTo("/");
+        } catch (e) {
+            dispatch(adminError());
+        }
     };
 };
 
-export const registerCustomerWithAPI = (payload) => {
+export const registerCustomerWithAPI = (payload, navigateTo) => {
     return async (dispatch) => {
-        const response = await axios.post(`${BASE_URL}/api/customers`, payload);
-        const registrationData = response.data;
-        dispatch(login({ user: registrationData, role: "customer" }));
+        try {
+            const response = await axios.post(`${BASE_URL}/api/customers`, payload);
+            const registrationData = response.data;
+            dispatch(login({ user: registrationData, role: "customer" }));
+            navigateTo("/");
+        } catch (e) {
+            const error = e.response.data;
+            if (error.errorType === "CUSTOMER_EXISTS")
+                dispatch(customerAlreadyExists());
+        }
     };
 };
 
-export const registerRestaurantWithAPI = (payload) => {
+export const registerRestaurantWithAPI = (payload, navigateTo) => {
     return async (dispatch) => {
-        const response = await axios.post(`${BASE_URL}/api/restaurants`, payload);
-        const registrationData = response.data;
-        dispatch(login({ user: registrationData, role: "restaurant" }));
+        try {
+            const response = await axios.post(`${BASE_URL}/api/restaurants`, payload);
+            // const registrationData = response.data;
+            navigateTo("/login");
+        } catch (e) {
+            const error = e.response.data;
+            if (error.errorType === "RESTAURANT_EXISTS")
+                dispatch(restaurantAlreadyExists());
+        }
     };
 };
 
+export const updateMeWithAPI = (payload, navigateTo, token) => {
+    return async (dispatch) => {
+        try {
+            console.log({ token });
+            const response = await axios.post(
+                `${BASE_URL}/api/customers/profile`,
+                payload,
+                {
+                    headers: {
+                        Authorization: "Bearer " + token, // replace `token` with your actual token
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            dispatch(
+                customerUpdateProfile({
+                    name: payload.name,
+                    phoneNumber: payload.phoneNumber,
+                })
+            );
+            navigateTo("/customer-profile");
+        } catch (e) {
+            dispatch(customerUpdateError());
+        }
+    };
+};

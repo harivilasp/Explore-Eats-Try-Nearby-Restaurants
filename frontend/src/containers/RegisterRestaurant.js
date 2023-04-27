@@ -12,22 +12,24 @@ const RegisterRestaurant = () => {
   const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { restaurantRegisteredError } = useSelector(
+  const { restaurantRegisteredError, restAlreadyExists } = useSelector(
     (state) => state.auth
-);
+  );
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(
-      registerRestaurantWithAPI({
-        name,
-        address,
-        username,
-        phoneNumber: phone,
-        email,
-        password,
-      })
+      registerRestaurantWithAPI(
+        {
+          name,
+          address,
+          username,
+          phoneNumber: phone,
+          email,
+          password,
+        },
+        navigateTo
+      )
     );
-    navigateTo("/");
   };
 
   return (
@@ -95,6 +97,10 @@ const RegisterRestaurant = () => {
             />
           </label>
           <br />
+
+          {restAlreadyExists && (
+            <p style={{ color: "red" }}>* Restaurant account already exists!</p>
+          )}
           <button type="submit" className="submit-button">
             Submit
           </button>

@@ -11,21 +11,23 @@ const RegisterCustomer = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { customerRegisteredError } = useSelector(
+  const { customerRegisteredError, custAlreadyExists } = useSelector(
     (state) => state.auth
-);
+  );
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(
-      registerCustomerWithAPI({
-        name,
-        email,
-        username,
-        password,
-        phoneNumber: phone,
-      })
+      registerCustomerWithAPI(
+        {
+          name,
+          email,
+          username,
+          password,
+          phoneNumber: phone,
+        },
+        navigateTo
+      )
     );
-    navigateTo("/");
   };
 
   return (
@@ -83,6 +85,9 @@ const RegisterCustomer = () => {
             />
           </label>
           <br />
+          {custAlreadyExists && (
+            <p style={{ color: "red" }}>* Customer account already exists!</p>
+          )}
           <button type="submit" className="submit-button">
             Submit
           </button>
