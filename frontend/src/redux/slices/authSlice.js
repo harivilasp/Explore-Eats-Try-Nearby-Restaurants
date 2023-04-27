@@ -13,6 +13,7 @@ const initialState = {
     custAlreadyExists: false,
     restAlreadyExists: false,
     updateCustError: false,
+    pendingRestaurants: []
 };
 
 export const authSlice = createSlice({
@@ -29,6 +30,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         logout: (state) => {
             state.user = null;
@@ -40,6 +42,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         customerError: (state) => {
             state.user = null;
@@ -51,6 +54,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         restaurantError: (state) => {
             state.user = null;
@@ -62,6 +66,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         adminError: (state) => {
             state.user = null;
@@ -73,6 +78,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         restUnapprovedError: (state) => {
             state.user = null;
@@ -84,6 +90,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         customerAlreadyExists: (state) => {
             state.user = null;
@@ -95,6 +102,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = true;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         restaurantAlreadyExists: (state) => {
             state.user = null;
@@ -106,6 +114,7 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = true;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
         customerUpdateError: (state) => {
             state.user = null;
@@ -117,10 +126,12 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = true;
+            state.pendingRestaurants = []
         },
         customerUpdateProfile: (state, action) => {
             state.user.user.name = action.payload.name;
             state.user.user.phoneNumber = action.payload.phoneNumber;
+          
         },
         reset: (state) => {
             state.user = null;
@@ -132,7 +143,12 @@ export const authSlice = createSlice({
             state.custAlreadyExists = false;
             state.restAlreadyExists = false;
             state.updateCustError = false;
+            state.pendingRestaurants = []
         },
+        setPendingRestaurant: (state, action) => {
+            console.log("some")
+            state.pendingRestaurants = action.payload
+        }
     },
 });
 
@@ -149,6 +165,7 @@ export const {
     customerAlreadyExists,
     customerUpdateError,
     customerUpdateProfile,
+    setPendingRestaurant
 } = authSlice.actions;
 export default authSlice.reducer;
 
@@ -256,3 +273,29 @@ export const updateMeWithAPI = (payload, navigateTo, token) => {
         }
     };
 };
+
+export const getAdminPendingRequests = () => {
+    return async (dispatch) => {
+     
+        try{
+            const response = await axios.get(`${BASE_URL}/api/admins/pending`)
+            const data = response.data
+            console.log(data)
+            dispatch(setPendingRestaurant(data["restaurantNames"]))
+        } catch(e) {
+            console.log(e)
+        }
+    }
+}
+export const approveRestaurant = (id) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(`${BASE_URL}/api/admins/approve/${id}`)
+            const data = response.data
+            console.log(data)
+            dispatch(getAdminPendingRequests)
+        } catch(e){
+            console.log(e)
+        }
+    }
+}

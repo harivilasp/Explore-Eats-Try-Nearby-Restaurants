@@ -41,7 +41,8 @@ const restaurantSchema = mongoose.Schema(
     place_id: {
       type: String,
       unique: true,
-      required: [true, "Please add a PlaceId"], // by default, the status is false // true means the restaurant is approved and registered.
+      required: [false, "Please add a PlaceId"],
+     // by default, the status is false // true means the restaurant is approved and registered.
     },
     // I need to further add role, phone number here later
   },

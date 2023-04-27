@@ -18,7 +18,8 @@ import CustomerSettings from "./containers/CustomerSettings";
 import Contact from "./containers/Contact";
 import RestaurantSettings from "./containers/RestaurantSettings";
 import RoleBasedElement from "./filterer/RoleBasedElement";
-import RestaurantComponent from "./components/Restaurant";
+import RestaurantComponent from "./containers/Restaurant";
+import RestaurantHome from "./containers/RestaurantHome";
 
 function App() {
   return (
@@ -84,6 +85,15 @@ function App() {
             element={
               <RoleBasedElement allowedRoles={["restaurant"]}>
                 <RestaurantSettings />
+              </RoleBasedElement>
+            }
+          />
+
+<Route
+            path="/restaurant-home"
+            element={
+              <RoleBasedElement allowedRoles={["restaurant"]}>
+                <RestaurantHome />
               </RoleBasedElement>
             }
           />
