@@ -5,6 +5,7 @@ const Restaruant = require("../models/restaurantModel");
 const Admin = require("../models/adminModel");
 const PendingRequest = require("../models/pendingRequestModel");
 const PendingCall = require("../models/pendingCallsModel");
+const Customer = require("../models/customerModel");
 const { getFindPlaceFromText } = require("../services/api-requests");
 const { default: axios } = require("axios");
 
@@ -137,15 +138,19 @@ const loginRestaruant = asyncHandler(async (req, res) => {
 //  @route Get /api/users/me
 //  @access Public
 const getPendingCalls = asyncHandler(async (req, res) => {
-  // Since we are getting the req.admin,  userid from our authMiddleware,we can use it here since it's redirecting us here.
-  const restaruantIDs = await PendingCall.collection.distinct("restaurantID"); // We can all fetch others fields
-  const customerIDs = await PendingCall.collection.distinct("customerID"); // We can all fetch others fields
+  const restaurantIDs = await PendingCall.collection.distinct("restaurantID");
+  const customerIDs = await PendingCall.collection.distinct("customerID");
+
+  const customers = await Customer.find({ _id: { $in: customerIDs } });
+
+  const customerInfo = customers.map((customer) => {
+    return { id: customer._id, name: customer.name, phoneNumber: customer.phoneNumber };
+  });
 
   res.status(200).json({
-    restaruantIDs,
-    customerIDs,
+    restaurantIDs,
+    customerInfo,
   });
-  // res.json({message: 'Admin Data' })
 });
 
 const deletePendingCalls = asyncHandler(async (req, res) => {
