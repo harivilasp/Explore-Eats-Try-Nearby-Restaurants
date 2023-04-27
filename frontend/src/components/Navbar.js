@@ -69,7 +69,7 @@ const Navbar = () => {
         <div className="relative">
           <button
             onClick={(e) => setShowDropdown(!showDropdown)}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800"
+            className="px-4 py-2 text-gray-600 hover:text-gray-800 bg-transparent border-none"
           >
             Options
           </button>
