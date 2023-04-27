@@ -2,8 +2,6 @@ import Card from "../components/Card";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 const postData = async (data) => {
   try {
     const response = await axios.post("http://localhost:5001/api/search", data);
@@ -19,7 +17,6 @@ function Home() {
   useEffect(() => {
     async function fetchData() {
       const data = await postData({ lat: 40.7128, lng: -74.006 });
-      // console.log("data -- got from backend", data);
       setRestaurants(data);
     }
     fetchData();
