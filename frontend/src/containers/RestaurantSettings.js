@@ -93,10 +93,10 @@ function RestaurantSettings() {
             </li>
           </ul>
           <button
-            className="bg-green-500 text-white rounded-md px-1 py-1 w-1/3 mt-2"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
             onClick={handleUpdateProfile}
           >
-            Save
+            Save Changes
           </button>
         </div>
         <div className="col-span-2 md:col-span-1">

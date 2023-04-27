@@ -26,13 +26,17 @@ exports.getNearByPlaces = (req, res) => {
 // Get the place details
 exports.getPlaceDetails = (req, res) => {
   const { placeId } = req.params;
-  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,formatted_phone_number,formatted_address,opening_hours,website,geometry&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,formatted_phone_number,formatted_address,opening_hours,website,geometry,place_id,photos&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   console.log(url);
   axios
     .get(url)
     .then((response) => {
       console.log(response.data.result);
-      res.json(response.data.result);
+      data = response.data.result;
+      data["photos"][0][
+        "photo_reference"
+      ] = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data["photos"][0]["photo_reference"]}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      res.json(data);
     })
     .catch((error) => {
       console.log(error);
@@ -72,7 +76,8 @@ exports.getPlaceReviews = (req, res, next) => {
 // get findplacefromtext
 exports.getFindPlaceFromText = (req, res) => {
   const placeName = req.params.placeName;
-  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&fields=name%2Crating%2Cuser_ratings_total%2Cformatted_address%2Cphotos&&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&fields=place_id%2Cname%2Crating%2Cuser_ratings_total%2Cformatted_address%2Cphotos&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  // const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   console.log(url);
   axios
     .get(url)

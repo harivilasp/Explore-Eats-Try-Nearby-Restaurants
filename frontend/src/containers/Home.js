@@ -22,7 +22,6 @@ function Home() {
     fetchData();
   }, []);
 
-
   return (
     <div className="flex">
       {restaurants &&
@@ -38,4 +37,3 @@ function Home() {
 }
 
 export default Home;
-

@@ -2,12 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Card = ({ restaurant }) => {
-  var { name, rating, user_ratings_total, vicinity, photos } = restaurant;
+  var { place_id, name, rating, user_ratings_total, vicinity, photos } =
+    restaurant;
   // <pre>
   //   <code>{JSON.stringify(restaurant, null, 2)}</code>
   // </pre>;
   return (
-    <Link to="/restaurant" className="bg-white rounded-lg shadow-md overflow-hidden w-full md:w-1/3 mx-4 my-6">
+    <Link
+      to={`/restaurant/${place_id}`}
+      className="bg-white rounded-lg shadow-md overflow-hidden w-full md:w-1/3 mx-4 my-6"
+    >
       {/* Image */}
       {/* <pre>
         <code>{JSON.stringify(photos, null, 2)}</code>
@@ -45,7 +49,6 @@ const Card = ({ restaurant }) => {
           <span className="text-gray-700 font-semibold">{rating}</span>
           <span className="text-gray-600"> ({user_ratings_total} reviews)</span>
         </div>
-
       </div>
     </Link>
   );
