@@ -12,7 +12,7 @@ const RegisterRestaurant = () => {
   const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { restaurantRegisteredError, restAlreadyExists } = useSelector(
+  const { restAlreadyExists } = useSelector(
     (state) => state.auth
   );
   const handleSubmit = (event) => {

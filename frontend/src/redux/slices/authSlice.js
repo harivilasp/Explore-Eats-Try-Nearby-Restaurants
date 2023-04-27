@@ -220,8 +220,7 @@ export const registerCustomerWithAPI = (payload, navigateTo) => {
 export const registerRestaurantWithAPI = (payload, navigateTo) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post(`${BASE_URL}/api/restaurants`, payload);
-            // const registrationData = response.data;
+            await axios.post(`${BASE_URL}/api/restaurants`, payload);
             navigateTo("/login");
         } catch (e) {
             const error = e.response.data;
@@ -235,7 +234,7 @@ export const updateMeWithAPI = (payload, navigateTo, token) => {
     return async (dispatch) => {
         try {
             console.log({ token });
-            const response = await axios.post(
+            await axios.post(
                 `${BASE_URL}/api/customers/profile`,
                 payload,
                 {

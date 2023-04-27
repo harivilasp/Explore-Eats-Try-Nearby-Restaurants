@@ -11,7 +11,7 @@ const RegisterCustomer = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { customerRegisteredError, custAlreadyExists } = useSelector(
+  const { custAlreadyExists } = useSelector(
     (state) => state.auth
   );
   const handleSubmit = (event) => {
