@@ -33,7 +33,7 @@ const registerRestaurant = asyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10); // to hash the pass
   const hashPassword = await bcrypt.hash(password, salt);
   let place_id = "123456789";
-  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${name}&inputtype=textquery&key=AIzaSyC7dYgeoHfb09SthCLsMUT57ZpNWsksrno`;
+  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${name}&inputtype=textquery&key=${process.env.GOOGLE_MAPS_API_KEY}`;
 
   await axios.get(url).then((response) => {
     // console.log(response.data);
@@ -144,7 +144,11 @@ const getPendingCalls = asyncHandler(async (req, res) => {
   const customers = await Customer.find({ _id: { $in: customerIDs } });
 
   const customerInfo = customers.map((customer) => {
-    return { id: customer._id, name: customer.name, phoneNumber: customer.phoneNumber };
+    return {
+      id: customer._id,
+      name: customer.name,
+      phoneNumber: customer.phoneNumber,
+    };
   });
 
   res.status(200).json({
